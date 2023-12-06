@@ -3,6 +3,7 @@ name = 'guilib'
 version = '0.0.0'
 requires-python = '>=3.12'
 dependencies = [
+    'qtpy',
 ]
 
 
@@ -24,8 +25,7 @@ namespaces = false
 mypy_path = 'src,stubs,tests'
 strict = true
 warn_unused_configs = true
-# plugins = 'sqlalchemy.ext.mypy.plugin'
-# seems it doesn't work
+always_false = ['PYQT5', 'PYSIDE2', 'PYQT6']
 exclude = ['src/gen/.*']
 
 [tool.ruff]
