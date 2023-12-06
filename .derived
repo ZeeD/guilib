@@ -1,0 +1,9 @@
+/.git
+/.project
+/.settings
+
+*.egg-info
+**/__pycache__
+.*_cache
+
+/src/gen
