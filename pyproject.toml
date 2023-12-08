@@ -18,15 +18,14 @@ devtools = [
 ]
 
 [tool.setuptools.packages.find]
-where = ['src', 'stubs', 'tests']
+where = ['src', 'tests']
 namespaces = false
 
 [tool.mypy]
-mypy_path = 'src,stubs,tests'
+mypy_path = 'src,tests'
 strict = true
 warn_unused_configs = true
 always_false = ['PYQT5', 'PYSIDE2', 'PYQT6']
-exclude = ['src/gen/.*']
 
 [tool.ruff]
 extend-select = [
@@ -35,7 +34,6 @@ extend-select = [
     'ICN', 'G', 'INP', 'PIE', 'T20', 'PYI', 'PT', 'Q', 'RSE', 'RET', 'SLF',
     'SLOT', 'SIM', 'TID', 'TCH', 'INT', 'ARG', 'PTH', 'TD', 'FIX', 'ERA', 'PD',
     'PGH', 'PL', 'TRY', 'FLY', 'NPY', 'AIR', 'PERF', 'RUF',
-    # 'CPY', 'FURB', 'LOG', 
 ]
 ignore = [
     'D211', 'D212', 'ANN101', 'ANN102', 'D100', 'D103', 'D101', 'D102', 'S310',
@@ -45,16 +43,13 @@ ignore = [
 ]
 fix = true
 line-length = 80
-extend-exclude = ['src/gen', 'alembic/versions', 'tools/alembic_local']
-src = ['src', 'stubs', 'tools', 'tests', 'alembic']
+src = ['src', 'tests']
 
 [tool.ruff.isort]
 force-single-line = true
 
 [tool.ruff.flake8-quotes]
-# docstring-quotes = 'single'
 inline-quotes = 'single'
-# multiline-quotes = 'single'
 
 [tool.ruff.format]
 quote-style = 'single'

@@ -7,7 +7,7 @@ from qtpy.QtCore import QPersistentModelIndex
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QApplication
 
-from searchsheet.widget import SearchSheet
+from guilib.searchsheet.widget import SearchSheet
 
 
 class M(QAbstractTableModel):
