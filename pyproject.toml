@@ -21,6 +21,9 @@ devtools = [
 where = ['src', 'tests']
 namespaces = false
 
+[tool.setuptools.package-data]
+guilib = ["py.typed"]
+
 [tool.mypy]
 mypy_path = 'src,tests'
 strict = true
