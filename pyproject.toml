@@ -18,11 +18,11 @@ devtools = [
 ]
 
 [tool.setuptools.packages.find]
-where = ['src', 'tests']
+where = ['src']
 namespaces = false
 
 [tool.setuptools.package-data]
-guilib = ["py.typed"]
+guilib = ['py.typed']
 
 [tool.mypy]
 mypy_path = 'src,tests'
@@ -42,7 +42,7 @@ ignore = [
     'D211', 'D212', 'ANN101', 'ANN102', 'D100', 'D103', 'D101', 'D102', 'S310',
     'D104', 'ERA001', 'D300', 'D106',
     'COM812', 'COM819', 'D206', 'E501', 'ISC001', 'Q000', 'Q001', 'Q002', 'Q003', 'W191',
-    'D105', 'D107', 'PT009', 'S101',
+    'D105', 'D107', 'PT009', 'S101', 'PT027',
 ]
 fix = true
 line-length = 80
