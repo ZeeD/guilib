@@ -1,3 +1,7 @@
+from os import environ
+
+if 'QT_API' not in environ:
+    environ['QT_API'] = 'pyside6'
 from qtpy.QtCore import QAbstractItemModel
 from qtpy.QtCore import QObject
 from qtpy.QtCore import QSortFilterProxyModel

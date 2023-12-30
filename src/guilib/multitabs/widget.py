@@ -1,3 +1,7 @@
+from os import environ
+
+if 'QT_API' not in environ:
+    environ['QT_API'] = 'pyside6'
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QTabWidget
 from qtpy.QtWidgets import QToolBox
