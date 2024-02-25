@@ -2,7 +2,6 @@ from os import environ
 
 if 'QT_API' not in environ:
     environ['QT_API'] = 'pyside6'
-from qtpy.QtCore import QAbstractItemModel
 from qtpy.QtCore import QItemSelectionModel
 from qtpy.QtCore import QSortFilterProxyModel
 from qtpy.QtCore import Qt
@@ -33,17 +32,17 @@ class SearchSheet(QWidget):
         self.table_view.setEditTriggers(
             QAbstractItemView.EditTrigger.NoEditTriggers
         )
-        self.table_view.setAlternatingRowColors(True)  # noqa: FBT003
+        self.table_view.setAlternatingRowColors(True)
         self.table_view.setSelectionBehavior(
             QAbstractItemView.SelectionBehavior.SelectRows
         )
-        self.table_view.setShowGrid(True)  # noqa: FBT003
+        self.table_view.setShowGrid(True)
         self.table_view.setGridStyle(Qt.PenStyle.DashLine)
-        self.table_view.setSortingEnabled(True)  # noqa: FBT003
-        self.table_view.setWordWrap(False)  # noqa: FBT003
-        self.table_view.horizontalHeader().setCascadingSectionResizes(True)  # noqa: FBT003
-        self.table_view.horizontalHeader().setStretchLastSection(True)  # noqa: FBT003
-        self.table_view.verticalHeader().setVisible(False)  # noqa: FBT003
+        self.table_view.setSortingEnabled(True)
+        self.table_view.setWordWrap(False)
+        self.table_view.horizontalHeader().setCascadingSectionResizes(True)
+        self.table_view.horizontalHeader().setStretchLastSection(True)
+        self.table_view.verticalHeader().setVisible(False)
 
         self.line_edit = QLineEdit(self)
         self.line_edit.setPlaceholderText('Filter')
@@ -66,11 +65,7 @@ class SearchSheet(QWidget):
         if isinstance(model, QSortFilterProxyModel):
             model.setFilterWildcard(text)
 
-    def set_model(self, model: QAbstractItemModel | None) -> None:
-        if model is None:
-            self.table_view.setModel(None)
-            return
-        searchable_model = SearchableModel(model, self)
+    def set_model(self, searchable_model: SearchableModel) -> None:
         self.table_view.setModel(searchable_model)
         searchable_model.modelReset.connect(
             self.table_view.resizeColumnsToContents

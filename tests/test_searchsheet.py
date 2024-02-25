@@ -7,6 +7,7 @@ from qtpy.QtCore import QPersistentModelIndex
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QApplication
 
+from guilib.searchsheet.model import SearchableModel
 from guilib.searchsheet.widget import SearchSheet
 
 
@@ -46,12 +47,14 @@ class TestSearchSheet(TestCase):
         app = QApplication([])
         search_sheet = SearchSheet()
         search_sheet.set_model(
-            M(
-                [
-                    ('uno', 101),
-                    ('due', 102),
-                    ('tre', 103),
-                ],
+            SearchableModel(
+                M(
+                    [
+                        ('uno', 101),
+                        ('due', 102),
+                        ('tre', 103),
+                    ],
+                )
             )
         )
         search_sheet.show()
