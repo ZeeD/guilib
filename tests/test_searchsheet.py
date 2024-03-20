@@ -19,12 +19,12 @@ class M(QAbstractTableModel):
         self._data = data
 
     @override
-    def rowCount(self, parent: QModelIndex | QPersistentModelIndex = MI) -> int:
+    def rowCount(self, _parent: QModelIndex | QPersistentModelIndex = MI) -> int:
         return len(self._data)
 
     @override
     def columnCount(
-        self, parent: QModelIndex | QPersistentModelIndex = MI
+        self, _parent: QModelIndex | QPersistentModelIndex = MI
     ) -> int:
         return 2
 
