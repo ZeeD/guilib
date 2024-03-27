@@ -36,15 +36,13 @@ class RangeSlider(QQuickItem):
     def set_first_value(
         self,
         first_value: float,  # @UnusedVariable
-    ) -> None:
-        ...
+    ) -> None: ...
 
     @abstractmethod
     def set_second_value(
         self,
         second_value: float,  # @UnusedVariable
-    ) -> None:
-        ...
+    ) -> None: ...
 
 
 class RangeSliderView(QQuickView):

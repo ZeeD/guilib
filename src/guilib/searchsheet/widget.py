@@ -1,7 +1,9 @@
 from os import environ
+from typing import TYPE_CHECKING
 
 if 'QT_API' not in environ:
     environ['QT_API'] = 'pyside6'
+
 from qtpy.QtCore import QItemSelectionModel
 from qtpy.QtCore import QSortFilterProxyModel
 from qtpy.QtCore import Qt
@@ -14,7 +16,8 @@ from qtpy.QtWidgets import QLineEdit
 from qtpy.QtWidgets import QTableView
 from qtpy.QtWidgets import QWidget
 
-from .model import SearchableModel
+if TYPE_CHECKING:
+    from .model import SearchableModel
 
 
 class SearchSheet(QWidget):
@@ -65,7 +68,7 @@ class SearchSheet(QWidget):
         if isinstance(model, QSortFilterProxyModel):
             model.setFilterWildcard(text)
 
-    def set_model(self, searchable_model: SearchableModel) -> None:
+    def set_model(self, searchable_model: 'SearchableModel') -> None:
         self.table_view.setModel(searchable_model)
         searchable_model.modelReset.connect(
             self.table_view.resizeColumnsToContents

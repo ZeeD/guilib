@@ -19,7 +19,9 @@ class M(QAbstractTableModel):
         self._data = data
 
     @override
-    def rowCount(self, _parent: QModelIndex | QPersistentModelIndex = MI) -> int:
+    def rowCount(
+        self, _parent: QModelIndex | QPersistentModelIndex = MI
+    ) -> int:
         return len(self._data)
 
     @override
@@ -47,15 +49,7 @@ class TestSearchSheet(TestCase):
         app = QApplication([])
         search_sheet = SearchSheet()
         search_sheet.set_model(
-            SearchableModel(
-                M(
-                    [
-                        ('uno', 101),
-                        ('due', 102),
-                        ('tre', 103),
-                    ],
-                )
-            )
+            SearchableModel(M([('uno', 101), ('due', 102), ('tre', 103)]))
         )
         search_sheet.show()
         self.assertEqual(0, app.exec())

@@ -2,6 +2,7 @@ from os import environ
 
 if 'QT_API' not in environ:
     environ['QT_API'] = 'pyside6'
+
 from qtpy.QtCore import Qt
 from qtpy.QtWidgets import QTabWidget
 from qtpy.QtWidgets import QToolBox
@@ -13,12 +14,7 @@ class MultiTabs(QTabWidget):
         super().__init__(parent)
         self.setTabPosition(QTabWidget.TabPosition.West)
 
-    def add_double_box(
-        self,
-        sheet: QWidget,
-        chart: QWidget,
-        label: str,
-    ) -> int:
+    def add_double_box(self, sheet: QWidget, chart: QWidget, label: str) -> int:
         return self.addTab(DoubleBox(sheet, chart, self), label)
 
 

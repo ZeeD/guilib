@@ -10,9 +10,7 @@ from qtpy.QtCore import Qt
 
 class SearchableModel(QSortFilterProxyModel):
     def __init__(
-        self,
-        model: QAbstractItemModel,
-        parent: QObject | None = None,
+        self, model: QAbstractItemModel, parent: QObject | None = None
     ) -> None:
         super().__init__(parent)
         self.setSourceModel(model)
