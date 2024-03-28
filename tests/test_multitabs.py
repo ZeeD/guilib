@@ -1,14 +1,14 @@
 from os import environ
 from unittest import TestCase
 
+from guilib.multitabs.widget import MultiTabs
+from guilib.searchsheet.widget import SearchSheet
+
 if 'QT_API' not in environ:
     environ['QT_API'] = 'pyside6'
 
 from qtpy.QtCharts import QChartView
 from qtpy.QtWidgets import QApplication
-
-from guilib.multitabs.widget import MultiTabs
-from guilib.searchsheet.widget import SearchSheet
 
 
 class TestMultiTabs(TestCase):

@@ -2,10 +2,14 @@ from abc import abstractmethod
 from datetime import date
 from datetime import timedelta
 from logging import error
+from os import environ
 from pathlib import Path
 from typing import Final
 from typing import cast
 from typing import override
+
+if 'QT_API' not in environ:
+    environ['QT_API'] = 'pyside6'
 
 from qtpy.QtCore import QSortFilterProxyModel
 from qtpy.QtCore import Qt
