@@ -93,6 +93,8 @@ class ChartView(QChartView):
     def model_reset(self) -> None:
         series_model = self.factory(self._model._infos)  # noqa: SLF001
 
+        self.chart_hover.set_unit(series_model.unit)
+
         chart = Chart()
         chart.replace_series(series_model.series)
 

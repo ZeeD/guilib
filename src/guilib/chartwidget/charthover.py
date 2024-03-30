@@ -1,7 +1,12 @@
+from locale import LC_MONETARY
+from locale import currency
+from locale import setlocale
 from os import environ
 from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import cast
+
+from guilib.chartwidget.modelgui import SeriesModelUnit
 
 if 'QT_API' not in environ:
     environ['QT_API'] = 'pyside6'
@@ -31,6 +36,8 @@ class ChartHoverUI(QWidget):
 
 
 class ChartHover(QGraphicsWidget):
+    unit: SeriesModelUnit | None = None
+
     def __init__(
         self, precision: str, parent: QGraphicsItem | None = None
     ) -> None:
@@ -47,6 +54,15 @@ class ChartHover(QGraphicsWidget):
         item.setWidget(self.widget)
         self.keyToValueLabel: dict[str, QLabel] = {}
         self.precision = precision
+
+    def set_unit(self, unit: SeriesModelUnit) -> None:
+        self.unit = unit
+
+    def _label(self, v: 'Decimal') -> str:
+        if self.unit is SeriesModelUnit.EURO:
+            setlocale(LC_MONETARY, '')
+            return currency(v, grouping=True)
+        return str(v)
 
     def set_howmuchs(
         self,
@@ -65,12 +81,12 @@ class ChartHover(QGraphicsWidget):
                 del self.keyToValueLabel[key]
             else:
                 _, v = howmuchs[key]
-                label.setText(str(v))
+                label.setText(self._label(v))
 
         for key, (color, v) in howmuchs.items():
             if key in self.keyToValueLabel:
                 continue
-            label = QLabel(str(v), self.widget)
+            label = QLabel(self._label(v), self.widget)
             label.setStyleSheet(f'background-color: {color.name()}')
 
             self.widget.ormLayout.addRow(key, label)
