@@ -12,6 +12,10 @@ from guilib.chartwidget.viewmodel import SortFilterViewModel
 if 'QT_API' not in environ:
     environ['QT_API'] = 'pyside6'
 
+from qtpy.QtCore import QCoreApplication
+from qtpy.QtCore import Qt
+from qtpy.QtQuick import QQuickWindow
+from qtpy.QtQuick import QSGRendererInterface
 from qtpy.QtWidgets import QApplication
 
 if TYPE_CHECKING:
@@ -53,39 +57,38 @@ class I:  # noqa: E742
 
 class TestChartWidget(TestCase):
     def test_ui(self) -> None:
-        app = QApplication([])
-
         infos: 'list[Info]' = [
             I(
                 date(2024, 1, 1),
-                [
-                    C(CH('foo'), Decimal('1')),
-                    C(CH('bar'), Decimal('5')),
-                    C(CH('baz'), Decimal('9')),
-                ],
+                [C(CH('foo'), Decimal('1')), C(CH('bar'), Decimal('5'))],
             ),
             I(
                 date(2024, 2, 1),
-                [
-                    C(CH('foo'), Decimal('4')),
-                    C(CH('bar'), Decimal('8')),
-                    C(CH('baz'), Decimal('3')),
-                ],
+                [C(CH('foo'), Decimal('2')), C(CH('baz'), Decimal('9'))],
             ),
             I(
                 date(2024, 3, 1),
-                [
-                    C(CH('foo'), Decimal('7')),
-                    C(CH('bar'), Decimal('2')),
-                    C(CH('baz'), Decimal('6')),
-                ],
+                [C(CH('foo'), Decimal('3')), C(CH('bar'), Decimal('6'))],
+            ),
+            I(
+                date(2024, 5, 1),
+                [C(CH('foo'), Decimal('4')), C(CH('baz'), Decimal('8'))],
             ),
         ]
 
         model = SortFilterViewModel()
         factory = SeriesModel.by_column_header(CH('foo'), CH('bar'), CH('baz'))
 
+        QCoreApplication.setAttribute(
+            Qt.ApplicationAttribute.AA_ShareOpenGLContexts
+        )
+        QQuickWindow.setGraphicsApi(
+            QSGRendererInterface.GraphicsApi.OpenGLRhi  # @UndefinedVariable
+        )
+
+        app = QApplication([])
         widget = ChartWidget(model, None, factory)
         model.update(infos)
+        widget.resize(800, 600)
         widget.show()
         self.assertEqual(0, app.exec())

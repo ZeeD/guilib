@@ -51,7 +51,7 @@ class SeriesModel:
             x_min = date.max
             x_max = date.min
             y_min = Decimal('inf')
-            y_max = Decimal(0)
+            y_max = -Decimal('inf')
 
             line_seriess = []
             for column_header in column_headers:
@@ -59,7 +59,9 @@ class SeriesModel:
                 line_series.setName(column_header.name)
                 for info in infos:
                     when = info.when
-                    howmuch = info.howmuch(column_header) or Decimal(0)
+                    howmuch = info.howmuch(column_header)
+                    if howmuch is None:
+                        continue
 
                     if when < x_min:
                         x_min = when
