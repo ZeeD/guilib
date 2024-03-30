@@ -44,33 +44,38 @@ class SeriesModel:
     unit: 'SeriesModelUnit'
 
     @staticmethod
-    def by_column_header(column_header: 'ColumnHeader') -> 'SeriesModelFactory':
+    def by_column_header(
+        *column_headers: 'ColumnHeader',
+    ) -> 'SeriesModelFactory':
         def factory(infos: 'list[Info]') -> 'SeriesModel':
             x_min = date.max
             x_max = date.min
             y_min = Decimal('inf')
             y_max = Decimal(0)
 
-            line_series = QLineSeries()
-            line_series.setName(column_header.name)
-            for info in infos:
-                when = info.when
-                howmuch = info.howmuch(column_header) or Decimal(0)
+            line_seriess = []
+            for column_header in column_headers:
+                line_series = QLineSeries()
+                line_series.setName(column_header.name)
+                for info in infos:
+                    when = info.when
+                    howmuch = info.howmuch(column_header) or Decimal(0)
 
-                if when < x_min:
-                    x_min = when
-                if when > x_max:
-                    x_max = when
+                    if when < x_min:
+                        x_min = when
+                    if when > x_max:
+                        x_max = when
 
-                if howmuch < y_min:
-                    y_min = howmuch
-                if howmuch > y_max:
-                    y_max = howmuch
+                    if howmuch < y_min:
+                        y_min = howmuch
+                    if howmuch > y_max:
+                        y_max = howmuch
 
-                line_series.append(date2days(when), float(howmuch))
+                    line_series.append(date2days(when), float(howmuch))
+                line_seriess.append(line_series)
 
             return SeriesModel(
-                [line_series],
+                line_seriess,
                 date2QDateTime(x_min),
                 date2QDateTime(x_max),
                 float(y_min),

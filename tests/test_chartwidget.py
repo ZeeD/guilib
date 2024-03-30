@@ -60,30 +60,30 @@ class TestChartWidget(TestCase):
                 date(2024, 1, 1),
                 [
                     C(CH('foo'), Decimal('1')),
-                    C(CH('bar'), Decimal('2')),
-                    C(CH('baz'), Decimal('3')),
+                    C(CH('bar'), Decimal('5')),
+                    C(CH('baz'), Decimal('9')),
                 ],
             ),
             I(
                 date(2024, 2, 1),
                 [
-                    C(CH('foo'), Decimal('7')),
+                    C(CH('foo'), Decimal('4')),
                     C(CH('bar'), Decimal('8')),
-                    C(CH('baz'), Decimal('9')),
+                    C(CH('baz'), Decimal('3')),
                 ],
             ),
             I(
                 date(2024, 3, 1),
                 [
-                    C(CH('foo'), Decimal('4')),
-                    C(CH('bar'), Decimal('5')),
+                    C(CH('foo'), Decimal('7')),
+                    C(CH('bar'), Decimal('2')),
                     C(CH('baz'), Decimal('6')),
                 ],
             ),
         ]
 
         model = SortFilterViewModel()
-        factory = SeriesModel.by_column_header(CH('foo'))
+        factory = SeriesModel.by_column_header(CH('foo'), CH('bar'), CH('baz'))
 
         widget = ChartWidget(model, None, factory)
         model.update(infos)
