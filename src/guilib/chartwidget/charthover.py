@@ -31,7 +31,9 @@ class ChartHoverUI(QWidget):
 
 
 class ChartHover(QGraphicsWidget):
-    def __init__(self, parent: QGraphicsItem | None = None) -> None:
+    def __init__(
+        self, precision: str, parent: QGraphicsItem | None = None
+    ) -> None:
         super().__init__(parent)
         self.setLayout(QGraphicsLinearLayout(Qt.Orientation.Vertical))
         self.setZValue(11)
@@ -44,6 +46,7 @@ class ChartHover(QGraphicsWidget):
         item = QGraphicsProxyWidget(self)
         item.setWidget(self.widget)
         self.keyToValueLabel: dict[str, QLabel] = {}
+        self.precision = precision
 
     def set_howmuchs(
         self,
@@ -54,7 +57,7 @@ class ChartHover(QGraphicsWidget):
         if pos == self.pos():
             return
 
-        self.widget.label.setText(f'{when:%B %Y}')
+        self.widget.label.setText(when.strftime(self.precision))
 
         for key, label in self.keyToValueLabel.items():
             if key not in howmuchs:

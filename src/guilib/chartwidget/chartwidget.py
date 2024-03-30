@@ -20,11 +20,12 @@ class ChartWidget(QWidget):
         model: 'SortFilterViewModel',
         parent: QWidget | None,
         factory: 'SeriesModelFactory',
+        precision: str = '%B %Y',
     ) -> None:
         super().__init__(parent)
 
         layout = QVBoxLayout(self)
-        chart_view = ChartView(model, self, factory)
+        chart_view = ChartView(model, self, factory, precision)
         chart_slider = ChartSlider(model, self)
         layout.addWidget(chart_view)
         layout.addWidget(chart_slider)

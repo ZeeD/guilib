@@ -58,26 +58,18 @@ class I:  # noqa: E742
 class TestChartWidget(TestCase):
     def test_ui(self) -> None:
         infos: 'list[Info]' = [
-            I(
-                date(2024, 1, 1),
-                [C(CH('foo'), Decimal('1')), C(CH('bar'), Decimal('5'))],
-            ),
-            I(
-                date(2024, 2, 1),
-                [C(CH('foo'), Decimal('2')), C(CH('baz'), Decimal('9'))],
-            ),
-            I(
-                date(2024, 3, 1),
-                [C(CH('foo'), Decimal('3')), C(CH('bar'), Decimal('6'))],
-            ),
-            I(
-                date(2024, 5, 1),
-                [C(CH('foo'), Decimal('4')), C(CH('baz'), Decimal('8'))],
-            ),
+            I(date(2024, 1, 1), [C(CH('foo'), Decimal('0'))]),
+            I(date(2024, 1, 1), [C(CH('foo'), Decimal('5'))]),
+            I(date(2024, 2, 1), [C(CH('foo'), Decimal('5'))]),
+            I(date(2024, 2, 1), [C(CH('foo'), Decimal('1'))]),
+            I(date(2024, 3, 1), [C(CH('foo'), Decimal('1'))]),
+            I(date(2024, 3, 1), [C(CH('foo'), Decimal('3'))]),
+            I(date(2024, 4, 1), [C(CH('foo'), Decimal('3'))]),
+            I(date(2024, 4, 1), [C(CH('foo'), Decimal('2'))]),
         ]
 
         model = SortFilterViewModel()
-        factory = SeriesModel.by_column_header(CH('foo'), CH('bar'), CH('baz'))
+        factory = SeriesModel.by_column_header(CH('foo'))
 
         QCoreApplication.setAttribute(
             Qt.ApplicationAttribute.AA_ShareOpenGLContexts
@@ -87,7 +79,7 @@ class TestChartWidget(TestCase):
         )
 
         app = QApplication([])
-        widget = ChartWidget(model, None, factory)
+        widget = ChartWidget(model, None, factory, '%d/%m/%Y')
         model.update(infos)
         widget.resize(800, 600)
         widget.show()

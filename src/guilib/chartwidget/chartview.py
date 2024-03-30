@@ -50,6 +50,7 @@ class ChartView(QChartView):
         model: 'SortFilterViewModel',
         parent: 'QWidget | None',
         factory: 'SeriesModelFactory',
+        precision: str,
     ) -> None:
         super().__init__(parent)
         self.setMouseTracking(True)
@@ -58,7 +59,7 @@ class ChartView(QChartView):
         self._axis_x: DateTimeAxis | None = None
         self._start_date: date | None = None
         self._end_date: date | None = None
-        self.chart_hover = ChartHover()
+        self.chart_hover = ChartHover(precision)
         self.event_pos: QPointF | None = None
         self.factory = factory
 
@@ -125,10 +126,20 @@ class ChartView(QChartView):
             # find closest x
             # assumption: all series have same x, so just get the first one
             series = cast(list[QLineSeries], chart.series())
+            points = series[0].points()
             _, index, value = min(
                 (abs(event_value.x() - point.x()), i, point)
-                for i, point in enumerate(series[0].points())
+                for i, point in enumerate(points)
             )
+            # search if biggish indexes have same point value
+            tmp = index
+            prev: int | None = None
+            while tmp < len(points) and points[tmp].x() == value.x():
+                prev = tmp
+                tmp += 1
+            if prev is not None:
+                index = prev
+                value = points[prev]
 
             for serie in series:
                 serie.deselectAllPoints()
@@ -139,7 +150,7 @@ class ChartView(QChartView):
             howmuchs = {
                 serie.name(): (
                     serie.color(),
-                    Decimal(f'{serie.at(index).y(): .2f}'),
+                    Decimal(f'{serie.at(index).y():.2f}'),
                 )
                 for serie in series
             }
