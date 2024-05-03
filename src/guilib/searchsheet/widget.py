@@ -24,11 +24,12 @@ class SearchSheet(QWidget):
     def __init__(
         self,
         parent: QWidget | None = None,
-        f: Qt.WindowType = Qt.WindowType.Widget,
+        flags: Qt.WindowType = Qt.WindowType.Widget,
+        table_view: QTableView | None = None,
     ) -> None:
-        super().__init__(parent, f)
+        super().__init__(parent, flags)
 
-        self.table_view = QTableView(self)
+        self.table_view = QTableView(self) if table_view is None else table_view
         self.table_view.setSizeAdjustPolicy(
             QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents
         )
