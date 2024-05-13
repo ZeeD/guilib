@@ -1,11 +1,18 @@
 from datetime import date
 from datetime import datetime
+from os import environ
 from typing import TYPE_CHECKING
 from typing import cast
 
-from qtpy.QtCharts import QCategoryAxis
-
 from guilib.chartslider.chartslider import date2days
+
+if 'QT_API' not in environ:
+    environ['QT_API'] = 'pyside6'
+
+from qtpy.QtCharts import QCategoryAxis
+from qtpy.QtCore import Qt
+from qtpy.QtGui import QBrush
+from qtpy.QtGui import QPen
 
 if TYPE_CHECKING:
     from collections.abc import Iterator
@@ -59,6 +66,9 @@ class DateTimeAxis(QCategoryAxis):
         self.setMax(date2days(self.max_date))
 
         self.reset_categories()
+
+        self.setGridLinePen(QPen(QBrush(Qt.GlobalColor.darkRed), 3))
+        self.setMinorGridLineVisible(True)
 
     def reset_categories(self) -> None:
         for label in self.categoriesLabels():
