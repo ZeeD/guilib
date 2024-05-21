@@ -58,14 +58,23 @@ class I:  # noqa: E742
 class TestChartWidget(TestCase):
     def test_ui(self) -> None:
         infos: 'list[Info]' = [
-            I(date(2024, 1, 1), [C(CH('foo'), Decimal('0'))]),
-            I(date(2024, 1, 1), [C(CH('foo'), Decimal('5'))]),
-            I(date(2024, 2, 1), [C(CH('foo'), Decimal('5'))]),
-            I(date(2024, 2, 1), [C(CH('foo'), Decimal('1'))]),
-            I(date(2024, 3, 1), [C(CH('foo'), Decimal('1'))]),
-            I(date(2024, 3, 1), [C(CH('foo'), Decimal('3'))]),
-            I(date(2024, 4, 1), [C(CH('foo'), Decimal('3'))]),
-            I(date(2024, 4, 1), [C(CH('foo'), Decimal('2'))]),
+            I(date(2023, 1, 1), [C(CH('foo'), Decimal('0'))]),
+            I(date(2023, 1, 2), [C(CH('foo'), Decimal('100'))]),
+            I(date(2023, 1, 4), [C(CH('foo'), Decimal('200'))]),
+            I(date(2023, 1, 8), [C(CH('foo'), Decimal('300'))]),
+            I(date(2023, 1, 16), [C(CH('foo'), Decimal('400'))]),
+            I(date(2023, 2, 1), [C(CH('foo'), Decimal('500'))]),
+            I(date(2023, 3, 1), [C(CH('foo'), Decimal('600'))]),
+            I(date(2023, 4, 1), [C(CH('foo'), Decimal('700'))]),
+            I(date(2023, 6, 1), [C(CH('foo'), Decimal('800'))]),
+            I(date(2024, 1, 15), [C(CH('foo'), Decimal('0'))]),
+            I(date(2024, 1, 15), [C(CH('foo'), Decimal('5000'))]),
+            I(date(2024, 2, 1), [C(CH('foo'), Decimal('5000'))]),
+            I(date(2024, 2, 1), [C(CH('foo'), Decimal('1000'))]),
+            I(date(2024, 3, 1), [C(CH('foo'), Decimal('1000'))]),
+            I(date(2024, 3, 1), [C(CH('foo'), Decimal('3000'))]),
+            I(date(2024, 4, 1), [C(CH('foo'), Decimal('3000'))]),
+            I(date(2024, 4, 1), [C(CH('foo'), Decimal('2000'))]),
         ]
 
         model = SortFilterViewModel()

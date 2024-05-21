@@ -2,6 +2,7 @@ from datetime import date
 from decimal import Decimal
 from os import environ
 from typing import TYPE_CHECKING
+from typing import Final
 from typing import cast
 from typing import override
 
@@ -18,15 +19,11 @@ from qtpy.QtCharts import QChartView
 from qtpy.QtCharts import QLineSeries
 from qtpy.QtCharts import QValueAxis
 from qtpy.QtCore import QPointF
-from qtpy.QtCore import QRect
-from qtpy.QtCore import QRectF
 from qtpy.QtCore import Qt
 from qtpy.QtCore import Slot
-from qtpy.QtGui import QMouseEvent
-from qtpy.QtGui import QPainter
-from qtpy.QtGui import QPen
 
 if TYPE_CHECKING:
+    from qtpy.QtGui import QMouseEvent
     from qtpy.QtWidgets import QWidget
 
     from .modelgui import SeriesModelFactory
@@ -34,9 +31,9 @@ if TYPE_CHECKING:
 
 
 def tick_interval(y_max: float, n: int = 10) -> float:
-    """Return min(10**x) > y_max / n ."""
-    goal_step = y_max / n
-    exp = 1
+    """Find the min(10**x) that is > (y_max / n)."""
+    goal_step: Final = y_max / n
+    exp: int = 1
     while True:
         y_step = 10.0**exp
         if y_step > goal_step:
@@ -119,7 +116,7 @@ class ChartView(QChartView):
         self._axis_x = axis_x
 
     @override
-    def mouseMoveEvent(self, event: QMouseEvent) -> None:
+    def mouseMoveEvent(self, event: 'QMouseEvent') -> None:
         chart = self.chart()
         if chart is not None:
             event_pos = event.position()
@@ -168,19 +165,3 @@ class ChartView(QChartView):
 
         super().mouseMoveEvent(event)
         self.update()
-
-    @override
-    def drawForeground(self, painter: QPainter, rect: QRectF | QRect) -> None:
-        super().drawForeground(painter, rect)
-        if self.event_pos is None:
-            return
-
-        self.setUpdatesEnabled(False)
-        try:
-            painter.setPen(QPen(Qt.GlobalColor.gray, 1, Qt.PenStyle.DashLine))
-            x = self.event_pos.x()
-            painter.drawLine(
-                int(x), int(rect.top()), int(x), int(rect.bottom())
-            )
-        finally:
-            self.setUpdatesEnabled(True)
