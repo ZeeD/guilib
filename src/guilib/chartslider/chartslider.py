@@ -1,12 +1,13 @@
 from abc import abstractmethod
 from datetime import date
-from datetime import timedelta
 from logging import error
 from os import environ
 from pathlib import Path
-from typing import Final
 from typing import cast
 from typing import override
+
+from guilib.dates.converters import date2days
+from guilib.dates.converters import days2date
 
 if 'QT_API' not in environ:
     environ['QT_API'] = 'pyside6'
@@ -20,16 +21,6 @@ from qtpy.QtQuick import QQuickItem
 from qtpy.QtQuick import QQuickView
 from qtpy.QtWidgets import QVBoxLayout
 from qtpy.QtWidgets import QWidget
-
-EPOCH: Final = date(1970, 1, 1)
-
-
-def date2days(d: date, *, epoch: date = EPOCH) -> int:
-    return (d - epoch).days
-
-
-def days2date(days: float, *, epoch: date = EPOCH) -> date:
-    return epoch + timedelta(days=days)
 
 
 class RangeSlider(QQuickItem):

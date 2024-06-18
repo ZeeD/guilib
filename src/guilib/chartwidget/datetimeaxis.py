@@ -1,65 +1,22 @@
-from datetime import date
 from datetime import datetime
-from enum import Enum
-from enum import auto
 from os import environ
 from typing import TYPE_CHECKING
 from typing import cast
 
 from qtpy.QtCharts import QCategoryAxis
 
-from guilib.chartslider.chartslider import date2days
+from guilib.dates.converters import date2days
+from guilib.dates.generators import CreateDaysStepUnit
+from guilib.dates.generators import create_days
 
 if 'QT_API' not in environ:
     environ['QT_API'] = 'pyside6'
 
 
 if TYPE_CHECKING:
-    from collections.abc import Iterator
 
     from qtpy.QtCore import QDateTime
     from qtpy.QtCore import QObject
-
-
-def first_january(d: date, *, before: bool = True) -> date:
-    ret_year = d.year if before else d.year + 1
-    return date(ret_year, 1, 1)
-
-
-def next_first_of_the_month(day: date, *, delta: int = 1) -> date:
-    delta_years, m = divmod(day.month - 1 + delta, 12)
-    return date(day.year + delta_years, m + 1, 1)
-
-
-def next_first_of_the_year(day: date, *, delta: int = 1) -> date:
-    return date(day.year + delta, 1, 1)
-
-
-class CreateDaysStepUnit(Enum):
-    month = auto()
-    year = auto()
-
-
-def create_days(
-    begin: date,
-    end: date,
-    *,
-    step: int = 1,
-    unit: CreateDaysStepUnit = CreateDaysStepUnit.month,
-) -> 'Iterator[date]':
-    """Yield all the first day of the months between begin and end."""
-    day = begin
-    while True:
-        yield day
-        op = (
-            next_first_of_the_month
-            if unit is CreateDaysStepUnit.month
-            else next_first_of_the_year
-        )
-        next_day = op(day, delta=step)
-        if next_day > end:
-            break
-        day = next_day
 
 
 class DateTimeAxis(QCategoryAxis):

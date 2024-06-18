@@ -7,8 +7,8 @@ from enum import auto
 from os import environ
 from typing import TYPE_CHECKING
 
-from guilib.chartslider.chartslider import EPOCH
-from guilib.chartslider.chartslider import date2days
+from guilib.dates.converters import date2days
+from guilib.dates.converters import date2QDateTime
 
 if 'QT_API' not in environ:
     environ['QT_API'] = 'pyside6'
@@ -25,10 +25,6 @@ class SeriesModelUnit(Enum):
     EURO = auto()
     HOUR = auto()
     DAY = auto()
-
-
-def date2QDateTime(d: 'date', *, epoch: 'date' = EPOCH) -> 'QDateTime':  # noqa: N802
-    return QDateTime.fromSecsSinceEpoch(int((d - epoch).total_seconds()))
 
 
 SeriesModelFactory = Callable[['list[Info]'], 'SeriesModel']
