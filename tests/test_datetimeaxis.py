@@ -1,8 +1,8 @@
 from datetime import date
 from unittest import TestCase
 
-from guilib.chartwidget.datetimeaxis import create_days
-from guilib.chartwidget.datetimeaxis import next_first_of_the_month
+from guilib.dates.generators import create_days
+from guilib.dates.generators import next_first_of_the_month
 
 
 class TestDateTimeAxis(TestCase):

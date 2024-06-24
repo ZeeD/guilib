@@ -1,30 +1,26 @@
 from datetime import date
 from decimal import Decimal
-from os import environ
 from typing import TYPE_CHECKING
 from typing import Final
 from typing import cast
 from typing import override
 
-from guilib.chartslider.chartslider import days2date
+from PySide6.QtCharts import QChartView
+from PySide6.QtCharts import QLineSeries
+from PySide6.QtCharts import QValueAxis
+from PySide6.QtCore import QPointF
+from PySide6.QtCore import Qt
+from PySide6.QtCore import Slot
+
+from guilib.dates.converters import days2date
 
 from .chart import Chart
 from .charthover import ChartHover
 from .datetimeaxis import DateTimeAxis
 
-if 'QT_API' not in environ:
-    environ['QT_API'] = 'pyside6'
-
-from qtpy.QtCharts import QChartView
-from qtpy.QtCharts import QLineSeries
-from qtpy.QtCharts import QValueAxis
-from qtpy.QtCore import QPointF
-from qtpy.QtCore import Qt
-from qtpy.QtCore import Slot
-
 if TYPE_CHECKING:
-    from qtpy.QtGui import QMouseEvent
-    from qtpy.QtWidgets import QWidget
+    from PySide6.QtGui import QMouseEvent
+    from PySide6.QtWidgets import QWidget
 
     from .modelgui import SeriesModelFactory
     from .viewmodel import SortFilterViewModel

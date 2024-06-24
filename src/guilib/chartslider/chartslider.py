@@ -1,26 +1,22 @@
 from abc import abstractmethod
 from datetime import date
 from logging import error
-from os import environ
 from pathlib import Path
 from typing import cast
 from typing import override
 
+from PySide6.QtCore import QSortFilterProxyModel
+from PySide6.QtCore import Qt
+from PySide6.QtCore import QUrl
+from PySide6.QtCore import Signal
+from PySide6.QtCore import Slot
+from PySide6.QtQuick import QQuickItem
+from PySide6.QtQuick import QQuickView
+from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QWidget
+
 from guilib.dates.converters import date2days
 from guilib.dates.converters import days2date
-
-if 'QT_API' not in environ:
-    environ['QT_API'] = 'pyside6'
-
-from qtpy.QtCore import QSortFilterProxyModel
-from qtpy.QtCore import Qt
-from qtpy.QtCore import QUrl
-from qtpy.QtCore import Signal
-from qtpy.QtCore import Slot
-from qtpy.QtQuick import QQuickItem
-from qtpy.QtQuick import QQuickView
-from qtpy.QtWidgets import QVBoxLayout
-from qtpy.QtWidgets import QWidget
 
 
 class RangeSlider(QQuickItem):

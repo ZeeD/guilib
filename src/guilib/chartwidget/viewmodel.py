@@ -1,29 +1,27 @@
 from datetime import date
 from decimal import Decimal
 from operator import attrgetter
-from os import environ
 from typing import TYPE_CHECKING
 from typing import Literal
 from typing import cast
 from typing import overload
 from typing import override
 
-if 'QT_API' not in environ:
-    environ['QT_API'] = 'pyside6'
-
-from qtpy.QtCore import QAbstractTableModel
-from qtpy.QtCore import QItemSelectionModel
-from qtpy.QtCore import QModelIndex
-from qtpy.QtCore import QObject
-from qtpy.QtCore import QPersistentModelIndex
-from qtpy.QtCore import QRegularExpression
-from qtpy.QtCore import QSortFilterProxyModel
-from qtpy.QtCore import Qt
-from qtpy.QtGui import QBrush
-from qtpy.QtGui import QColor
+from PySide6.QtCore import QAbstractTableModel
+from PySide6.QtCore import QItemSelectionModel
+from PySide6.QtCore import QModelIndex
+from PySide6.QtCore import QObject
+from PySide6.QtCore import QPersistentModelIndex
+from PySide6.QtCore import QRegularExpression
+from PySide6.QtCore import QSortFilterProxyModel
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QBrush
+from PySide6.QtGui import QColor
 
 if TYPE_CHECKING:
-    from qtpy.QtWidgets import QStatusBar
+    from collections.abc import Sequence
+
+    from PySide6.QtWidgets import QStatusBar
 
     from .model import Info
 
@@ -42,7 +40,7 @@ def max_min_this(
 _QMODELINDEX = QModelIndex()
 
 
-def parse_infos(infos: 'list[Info]') -> tuple[list[str], list[list[str]]]:
+def parse_infos(infos: 'Sequence[Info]') -> tuple[list[str], list[list[str]]]:
     headers: list[str] = ['when']
     data: list[list[str]] = []
 
@@ -79,7 +77,7 @@ class ViewModel(QAbstractTableModel):
         super().__init__(parent)
         self._set_infos(infos)
 
-    def _set_infos(self, infos: 'list[Info]') -> None:
+    def _set_infos(self, infos: 'Sequence[Info]') -> None:
         self._headers, self._data = parse_infos(infos)
         self._infos = infos
 
@@ -214,7 +212,7 @@ class ViewModel(QAbstractTableModel):
         finally:
             self.layoutChanged.emit()
 
-    def load(self, infos: 'list[Info]') -> None:
+    def load(self, infos: 'Sequence[Info]') -> None:
         self.beginResetModel()
         try:
             self._set_infos(infos)
@@ -272,14 +270,14 @@ class SortFilterViewModel(QSortFilterProxyModel):
             message = f'⅀ = {bigsum}'
         statusbar.showMessage(message)
 
-    def update(self, infos: 'list[Info]') -> None:
+    def update(self, infos: 'Sequence[Info]') -> None:
         self.sourceModel().load(infos)
 
     def get_categories(self) -> list[str]:
         view_model = self.sourceModel()
         return view_model._headers  # noqa: SLF001
 
-    def get_rows(self) -> 'list[Info]':
+    def get_rows(self) -> 'Sequence[Info]':
         view_model = self.sourceModel()
         return view_model._infos  # noqa: SLF001
 

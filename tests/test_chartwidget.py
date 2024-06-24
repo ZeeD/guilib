@@ -1,27 +1,22 @@
 from datetime import date
 from decimal import Decimal
-from os import environ
 from typing import TYPE_CHECKING
 from typing import override
 from unittest import TestCase
+
+from PySide6.QtCore import QCoreApplication
+from PySide6.QtCore import Qt
+from PySide6.QtQuick import QQuickWindow
+from PySide6.QtQuick import QSGRendererInterface
+from PySide6.QtWidgets import QApplication
 
 from guilib.chartwidget.chartwidget import ChartWidget
 from guilib.chartwidget.modelgui import SeriesModel
 from guilib.chartwidget.viewmodel import SortFilterViewModel
 
-if 'QT_API' not in environ:
-    environ['QT_API'] = 'pyside6'
-
-from qtpy.QtCore import QCoreApplication
-from qtpy.QtCore import Qt
-from qtpy.QtQuick import QQuickWindow
-from qtpy.QtQuick import QSGRendererInterface
-from qtpy.QtWidgets import QApplication
-
 if TYPE_CHECKING:
     from guilib.chartwidget.model import Column
     from guilib.chartwidget.model import ColumnHeader
-    from guilib.chartwidget.model import Info
 
 
 class CH:
@@ -57,7 +52,7 @@ class I:  # noqa: E742
 
 class TestChartWidget(TestCase):
     def test_ui(self) -> None:
-        infos: 'list[Info]' = [
+        infos = [
             I(date(2023, 1, 1), [C(CH('foo'), Decimal('0'))]),
             I(date(2023, 1, 2), [C(CH('foo'), Decimal('100'))]),
             I(date(2023, 1, 4), [C(CH('foo'), Decimal('200'))]),

@@ -4,19 +4,18 @@ from datetime import date
 from decimal import Decimal
 from enum import Enum
 from enum import auto
-from os import environ
 from typing import TYPE_CHECKING
+
+from PySide6.QtCharts import QLineSeries
 
 from guilib.dates.converters import date2days
 from guilib.dates.converters import date2QDateTime
 
-if 'QT_API' not in environ:
-    environ['QT_API'] = 'pyside6'
-
-from qtpy.QtCharts import QLineSeries
-from qtpy.QtCore import QDateTime
-
 if TYPE_CHECKING:
+    from collections.abc import Sequence
+
+    from PySide6.QtCore import QDateTime
+
     from .model import ColumnHeader
     from .model import Info
 
@@ -27,7 +26,7 @@ class SeriesModelUnit(Enum):
     DAY = auto()
 
 
-SeriesModelFactory = Callable[['list[Info]'], 'SeriesModel']
+SeriesModelFactory = Callable[['Sequence[Info]'], 'SeriesModel']
 
 
 @dataclass
@@ -43,7 +42,7 @@ class SeriesModel:
     def by_column_header(
         *column_headers: 'ColumnHeader',
     ) -> 'SeriesModelFactory':
-        def factory(infos: 'list[Info]') -> 'SeriesModel':
+        def factory(infos: 'Sequence[Info]') -> 'SeriesModel':
             x_min = date.max
             x_max = date.min
             y_min = Decimal('inf')

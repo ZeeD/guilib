@@ -1,20 +1,16 @@
-from os import environ
 from typing import TYPE_CHECKING
 
-if 'QT_API' not in environ:
-    environ['QT_API'] = 'pyside6'
-
-from qtpy.QtCore import QItemSelectionModel
-from qtpy.QtCore import QSortFilterProxyModel
-from qtpy.QtCore import Qt
-from qtpy.QtGui import QKeySequence
-from qtpy.QtGui import QShortcut
-from qtpy.QtWidgets import QAbstractItemView
-from qtpy.QtWidgets import QAbstractScrollArea
-from qtpy.QtWidgets import QGridLayout
-from qtpy.QtWidgets import QLineEdit
-from qtpy.QtWidgets import QTableView
-from qtpy.QtWidgets import QWidget
+from PySide6.QtCore import QItemSelectionModel
+from PySide6.QtCore import QSortFilterProxyModel
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QKeySequence
+from PySide6.QtGui import QShortcut
+from PySide6.QtWidgets import QAbstractItemView
+from PySide6.QtWidgets import QAbstractScrollArea
+from PySide6.QtWidgets import QGridLayout
+from PySide6.QtWidgets import QLineEdit
+from PySide6.QtWidgets import QTableView
+from PySide6.QtWidgets import QWidget
 
 if TYPE_CHECKING:
     from .model import SearchableModel
@@ -34,7 +30,7 @@ class SearchSheet(QWidget):
             QAbstractScrollArea.SizeAdjustPolicy.AdjustToContents
         )
         self.table_view.setEditTriggers(
-            QAbstractItemView.EditTrigger.NoEditTriggers
+            QAbstractItemView.EditTrigger.NoEditTriggers  # @UndefinedVariable
         )
         self.table_view.setAlternatingRowColors(True)
         self.table_view.setSelectionBehavior(

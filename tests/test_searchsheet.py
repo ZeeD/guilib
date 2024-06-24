@@ -1,18 +1,14 @@
-from os import environ
 from typing import override
 from unittest import TestCase
 
+from PySide6.QtCore import QAbstractTableModel
+from PySide6.QtCore import QModelIndex
+from PySide6.QtCore import QPersistentModelIndex
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QApplication
+
 from guilib.searchsheet.model import SearchableModel
 from guilib.searchsheet.widget import SearchSheet
-
-if 'QT_API' not in environ:
-    environ['QT_API'] = 'pyside6'
-
-from qtpy.QtCore import QAbstractTableModel
-from qtpy.QtCore import QModelIndex
-from qtpy.QtCore import QPersistentModelIndex
-from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QApplication
 
 
 class M(QAbstractTableModel):

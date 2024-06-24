@@ -1,22 +1,16 @@
 from datetime import datetime
-from os import environ
 from typing import TYPE_CHECKING
 from typing import cast
 
-from qtpy.QtCharts import QCategoryAxis
+from PySide6.QtCharts import QCategoryAxis
 
 from guilib.dates.converters import date2days
 from guilib.dates.generators import CreateDaysStepUnit
 from guilib.dates.generators import create_days
 
-if 'QT_API' not in environ:
-    environ['QT_API'] = 'pyside6'
-
-
 if TYPE_CHECKING:
-
-    from qtpy.QtCore import QDateTime
-    from qtpy.QtCore import QObject
+    from PySide6.QtCore import QDateTime
+    from PySide6.QtCore import QObject
 
 
 class DateTimeAxis(QCategoryAxis):

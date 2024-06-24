@@ -1,12 +1,7 @@
-from os import environ
-
-if 'QT_API' not in environ:
-    environ['QT_API'] = 'pyside6'
-
-from qtpy.QtCore import Qt
-from qtpy.QtWidgets import QTabWidget
-from qtpy.QtWidgets import QToolBox
-from qtpy.QtWidgets import QWidget
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QTabWidget
+from PySide6.QtWidgets import QToolBox
+from PySide6.QtWidgets import QWidget
 
 
 class MultiTabs(QTabWidget):

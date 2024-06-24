@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
-from qtpy.QtWidgets import QVBoxLayout
-from qtpy.QtWidgets import QWidget
+from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QWidget
 
 from guilib.chartslider.chartslider import ChartSlider
 

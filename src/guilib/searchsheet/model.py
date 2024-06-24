@@ -1,12 +1,7 @@
-from os import environ
-
-if 'QT_API' not in environ:
-    environ['QT_API'] = 'pyside6'
-
-from qtpy.QtCore import QAbstractItemModel
-from qtpy.QtCore import QObject
-from qtpy.QtCore import QSortFilterProxyModel
-from qtpy.QtCore import Qt
+from PySide6.QtCore import QAbstractItemModel
+from PySide6.QtCore import QObject
+from PySide6.QtCore import QSortFilterProxyModel
+from PySide6.QtCore import Qt
 
 
 class SearchableModel(QSortFilterProxyModel):

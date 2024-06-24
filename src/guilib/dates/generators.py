@@ -1,12 +1,15 @@
-from collections.abc import Iterable
-from collections.abc import Iterator
 from datetime import date
 from datetime import timedelta
 from enum import Enum
 from enum import auto
+from typing import TYPE_CHECKING
 
 from guilib.dates.converters import date2days
 from guilib.dates.converters import days2date
+
+if TYPE_CHECKING:
+    from collections.abc import Iterable
+    from collections.abc import Iterator
 
 
 def next_first_of_the_month(day: date, *, delta: int = 1) -> date:
@@ -29,7 +32,7 @@ def create_days(
     *,
     step: int = 1,
     unit: CreateDaysStepUnit = CreateDaysStepUnit.month,
-) -> Iterator[date]:
+) -> 'Iterator[date]':
     """Yield all the first day of the month/year between begin and end."""
     day = begin
     while True:
@@ -49,7 +52,7 @@ def days(min_xdata: float, max_xdata: float) -> list[float]:
     lower = days2date(min_xdata)
     upper = days2date(max_xdata)
 
-    def it() -> Iterable[float]:
+    def it() -> 'Iterable[float]':
         when = lower
         while when <= upper:
             yield date2days(when)
@@ -65,7 +68,7 @@ def months(min_xdata: float, max_xdata: float) -> list[float]:
     ly, lm = (lower.year, lower.month)
     uy, um = (upper.year, upper.month)
 
-    def it() -> Iterable[float]:
+    def it() -> 'Iterable[float]':
         wy, wm = ly, lm
         while (wy, wm) <= (uy, um):
             yield date2days(date(wy, wm, 1))
@@ -85,12 +88,10 @@ def years(min_xdata: float, max_xdata: float) -> list[float]:
     ly = lower.year
     uy = upper.year
 
-    def it() -> Iterable[float]:
+    def it() -> 'Iterable[float]':
         wy = ly
         while wy <= uy:
             yield date2days(date(wy, 1, 1))
             wy += 1
 
     return list(it())
-
-
