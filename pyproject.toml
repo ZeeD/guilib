@@ -28,7 +28,6 @@ build-backend = "pdm.backend"
 mypy_path = ["src", "tests"]
 strict = true
 warn_unused_configs = true
-always_false = ["PYQT5", "PYSIDE2", "PYQT6"]
 
 [tool.ruff]
 fix = true
