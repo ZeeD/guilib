@@ -1,12 +1,11 @@
 from typing import override
-from unittest import TestCase
 
 from PySide6.QtCore import QAbstractTableModel
 from PySide6.QtCore import QModelIndex
 from PySide6.QtCore import QPersistentModelIndex
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QApplication
 
+from _support.basetests import BaseGuiTest
 from guilib.searchsheet.model import SearchableModel
 from guilib.searchsheet.widget import SearchSheet
 
@@ -44,12 +43,10 @@ class M(QAbstractTableModel):
         return None
 
 
-class TestSearchSheet(TestCase):
+class TestSearchSheet(BaseGuiTest):
     def test_ui(self) -> None:
-        app = QApplication([])
         search_sheet = SearchSheet()
         search_sheet.set_model(
             SearchableModel(M([('uno', 101), ('due', 102), ('tre', 103)]))
         )
-        search_sheet.show()
-        self.assertEqual(0, app.exec())
+        self.widgets.append(search_sheet)

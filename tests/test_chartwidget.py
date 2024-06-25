@@ -1,90 +1,71 @@
 from datetime import date
 from decimal import Decimal
 from typing import TYPE_CHECKING
-from typing import override
-from unittest import TestCase
+from typing import Final
 
-from PySide6.QtCore import QCoreApplication
-from PySide6.QtCore import Qt
-from PySide6.QtQuick import QQuickWindow
-from PySide6.QtQuick import QSGRendererInterface
-from PySide6.QtWidgets import QApplication
-
+from _support.basetests import BaseGuiTest
 from guilib.chartwidget.chartwidget import ChartWidget
 from guilib.chartwidget.modelgui import SeriesModel
 from guilib.chartwidget.viewmodel import SortFilterViewModel
 
 if TYPE_CHECKING:
-    from guilib.chartwidget.model import Column
-    from guilib.chartwidget.model import ColumnHeader
+    from collections.abc import Sequence
+
+    from guilib.chartwidget.model import Column as PColumn
+    from guilib.chartwidget.model import ColumnHeader as PColumnHeader
 
 
-class CH:
-    def __init__(self, name: str) -> None:
-        self.name = name
-
-    @override
-    def __eq__(self, other: object) -> bool:
-        if not isinstance(other, CH):
-            return NotImplemented
-        return self.name == other.name
+class Header:
+    name = 'foo'
 
 
-class C:
+class Column:
     def __init__(
-        self, header: 'ColumnHeader', howmuch: 'Decimal | None'
+        self, header: 'PColumnHeader', howmuch: 'Decimal | None'
     ) -> None:
         self.header = header
         self.howmuch = howmuch
 
 
-class I:  # noqa: E742
-    def __init__(self, when: 'date', columns: 'list[Column]') -> None:
+class Info:
+    def __init__(self, when: 'date', columns: 'Sequence[PColumn]') -> None:
         self.when = when
         self.columns = columns
 
-    def howmuch(self, column_header: 'ColumnHeader') -> 'Decimal | None':
+    def howmuch(self, column_header: 'PColumnHeader') -> 'Decimal | None':
         for column in self.columns:
             if column.header == column_header:
                 return column.howmuch
         return None
 
 
-class TestChartWidget(TestCase):
+class TestChartWidget(BaseGuiTest):
+    header = Header()
+    infos: Final = [
+        Info(date(2023, 1, 1), [Column(header, Decimal('0'))]),
+        Info(date(2023, 1, 2), [Column(header, Decimal('100'))]),
+        Info(date(2023, 1, 4), [Column(header, Decimal('200'))]),
+        Info(date(2023, 1, 8), [Column(header, Decimal('300'))]),
+        Info(date(2023, 1, 16), [Column(header, Decimal('400'))]),
+        Info(date(2023, 2, 1), [Column(header, Decimal('500'))]),
+        Info(date(2023, 3, 1), [Column(header, Decimal('600'))]),
+        Info(date(2023, 4, 1), [Column(header, Decimal('700'))]),
+        Info(date(2023, 6, 1), [Column(header, Decimal('800'))]),
+        Info(date(2024, 1, 15), [Column(header, Decimal('0'))]),
+        Info(date(2024, 1, 15), [Column(header, Decimal('5000'))]),
+        Info(date(2024, 2, 1), [Column(header, Decimal('5000'))]),
+        Info(date(2024, 2, 1), [Column(header, Decimal('1000'))]),
+        Info(date(2024, 3, 1), [Column(header, Decimal('1000'))]),
+        Info(date(2024, 3, 1), [Column(header, Decimal('3000'))]),
+        Info(date(2024, 4, 1), [Column(header, Decimal('3000'))]),
+        Info(date(2024, 4, 1), [Column(header, Decimal('2000'))]),
+    ]
+
     def test_ui(self) -> None:
-        infos = [
-            I(date(2023, 1, 1), [C(CH('foo'), Decimal('0'))]),
-            I(date(2023, 1, 2), [C(CH('foo'), Decimal('100'))]),
-            I(date(2023, 1, 4), [C(CH('foo'), Decimal('200'))]),
-            I(date(2023, 1, 8), [C(CH('foo'), Decimal('300'))]),
-            I(date(2023, 1, 16), [C(CH('foo'), Decimal('400'))]),
-            I(date(2023, 2, 1), [C(CH('foo'), Decimal('500'))]),
-            I(date(2023, 3, 1), [C(CH('foo'), Decimal('600'))]),
-            I(date(2023, 4, 1), [C(CH('foo'), Decimal('700'))]),
-            I(date(2023, 6, 1), [C(CH('foo'), Decimal('800'))]),
-            I(date(2024, 1, 15), [C(CH('foo'), Decimal('0'))]),
-            I(date(2024, 1, 15), [C(CH('foo'), Decimal('5000'))]),
-            I(date(2024, 2, 1), [C(CH('foo'), Decimal('5000'))]),
-            I(date(2024, 2, 1), [C(CH('foo'), Decimal('1000'))]),
-            I(date(2024, 3, 1), [C(CH('foo'), Decimal('1000'))]),
-            I(date(2024, 3, 1), [C(CH('foo'), Decimal('3000'))]),
-            I(date(2024, 4, 1), [C(CH('foo'), Decimal('3000'))]),
-            I(date(2024, 4, 1), [C(CH('foo'), Decimal('2000'))]),
-        ]
-
         model = SortFilterViewModel()
-        factory = SeriesModel.by_column_header(CH('foo'))
-
-        QCoreApplication.setAttribute(
-            Qt.ApplicationAttribute.AA_ShareOpenGLContexts
+        widget = ChartWidget(
+            model, None, SeriesModel.by_column_header(self.header), '%d/%m/%Y'
         )
-        QQuickWindow.setGraphicsApi(
-            QSGRendererInterface.GraphicsApi.OpenGLRhi  # @UndefinedVariable
-        )
-
-        app = QApplication([])
-        widget = ChartWidget(model, None, factory, '%d/%m/%Y')
-        model.update(infos)
+        model.update(self.infos)
         widget.resize(800, 600)
-        widget.show()
-        self.assertEqual(0, app.exec())
+        self.widgets.append(widget)

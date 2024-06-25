@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 from typing import Protocol
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
     from datetime import date
     from decimal import Decimal
 
@@ -17,6 +18,6 @@ class Column(Protocol):
 
 class Info(Protocol):
     when: 'date'
-    columns: list[Column]
+    columns: 'Sequence[Column]'
 
     def howmuch(self, column_header: ColumnHeader) -> 'Decimal | None': ...
