@@ -5,7 +5,7 @@
 groups = ["default", "dev"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.1"
-content_hash = "sha256:3fce9df29fd3cfe42cc716fc0e893a229b7835abae2a8924ecead7a6202114f1"
+content_hash = "sha256:3083d717fc9ef51b62a67a3df4a224ae50ff016d932c0a710994d419fa3f7fe1"
 
 [[package]]
 name = "coverage"
