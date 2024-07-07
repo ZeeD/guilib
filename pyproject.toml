@@ -1,29 +1,29 @@
 [project]
 name = "guilib"
 version = "0.0.0"
-requires-python = "==3.12.*"
 dependencies = [
     "PySide6>=6.7.2",
 ]
+requires-python = "==3.12.*"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true
 
 [project.urls]
 Homepage = "https://github.com/ZeeD/guilib"
 Repository = "https://github.com/ZeeD/guilib.git"
 
-[tool.pdm]
-distribution = true
-
-[project.optional-dependencies]
+[tool.pdm.dev-dependencies]
 dev = [
+    "coverage>=7.5.4",
     "mypy>=1.10.0",
     "ruff>=0.4.10",
-    "coverage>=7.5.4",
     "setuptools>=70.1.0",
 ]
-
-[build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
 
 [tool.mypy]
 mypy_path = ["src", "tests"]
