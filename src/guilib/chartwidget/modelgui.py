@@ -68,6 +68,12 @@ class SeriesModel:
                     if howmuch > y_max:
                         y_max = howmuch
 
+#                    x_min = min(when, x_min)
+#                    x_max = max(when, x_max)
+#
+#                    y_min = min(howmuch, y_min)
+#                    y_max = max(howmuch, y_max)
+
                     line_series.append(date2days(when), float(howmuch))
                 line_seriess.append(line_series)
 
