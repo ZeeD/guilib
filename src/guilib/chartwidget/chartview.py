@@ -12,18 +12,17 @@ from PySide6.QtCore import QPointF
 from PySide6.QtCore import Qt
 from PySide6.QtCore import Slot
 
+from guilib.chartwidget.chart import Chart
+from guilib.chartwidget.charthover import ChartHover
+from guilib.chartwidget.datetimeaxis import DateTimeAxis
 from guilib.dates.converters import days2date
-
-from .chart import Chart
-from .charthover import ChartHover
-from .datetimeaxis import DateTimeAxis
 
 if TYPE_CHECKING:
     from PySide6.QtGui import QMouseEvent
     from PySide6.QtWidgets import QWidget
 
-    from .modelgui import SeriesModelFactory
-    from .viewmodel import SortFilterViewModel
+    from guilib.chartwidget.modelgui import SeriesModelFactory
+    from guilib.chartwidget.viewmodel import SortFilterViewModel
 
 
 def tick_interval(y_max: float, n: int = 10) -> float:

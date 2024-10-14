@@ -6,9 +6,8 @@ from PySide6.QtCharts import QChart
 from PySide6.QtCharts import QLineSeries
 from PySide6.QtCore import Qt
 
+from guilib.chartwidget.datetimeaxis import DateTimeAxis
 from guilib.dates.converters import date2days
-
-from .datetimeaxis import DateTimeAxis
 
 if TYPE_CHECKING:
     from collections.abc import Iterable

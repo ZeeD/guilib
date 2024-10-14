@@ -16,8 +16,8 @@ if TYPE_CHECKING:
 
     from PySide6.QtCore import QDateTime
 
-    from .model import ColumnHeader
-    from .model import Info
+    from guilib.chartwidget.model import ColumnHeader
+    from guilib.chartwidget.model import Info
 
 
 class SeriesModelUnit(Enum):

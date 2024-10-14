@@ -4,12 +4,11 @@ from PySide6.QtWidgets import QVBoxLayout
 from PySide6.QtWidgets import QWidget
 
 from guilib.chartslider.chartslider import ChartSlider
-
-from .chartview import ChartView
+from guilib.chartwidget.chartview import ChartView
 
 if TYPE_CHECKING:
-    from .modelgui import SeriesModelFactory
-    from .viewmodel import SortFilterViewModel
+    from guilib.chartwidget.modelgui import SeriesModelFactory
+    from guilib.chartwidget.viewmodel import SortFilterViewModel
 
 
 class ChartWidget(QWidget):

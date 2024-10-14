@@ -13,7 +13,7 @@ from PySide6.QtWidgets import QTableView
 from PySide6.QtWidgets import QWidget
 
 if TYPE_CHECKING:
-    from .model import SearchableModel
+    from guilib.searchsheet.model import SearchableModel
 
 
 class SearchSheet(QWidget):

@@ -23,7 +23,7 @@ if TYPE_CHECKING:
 
     from PySide6.QtWidgets import QStatusBar
 
-    from .model import Info
+    from guilib.chartwidget.model import Info
 
 
 def max_min_this(
