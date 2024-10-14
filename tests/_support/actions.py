@@ -5,12 +5,15 @@ from typing import Protocol
 from typing import TypeVar
 from typing import cast
 
+T_contra = TypeVar('T_contra', contravariant=True)
+
+
+class Consumer(Protocol):
+    def __call__(self, t: T_contra) -> None: ...
+
 
 class Action(Protocol):
     def __call__(self) -> None: ...
-
-
-T_contra = TypeVar('T_contra', contravariant=True)
 
 
 class ClassMethodWorkAround(Protocol, Generic[T_contra]):
@@ -19,7 +22,7 @@ class ClassMethodWorkAround(Protocol, Generic[T_contra]):
 
 
 class ClassMethod(ClassMethodWorkAround[T_contra]):
-    __wrapped__: Action
+    __wrapped__: Consumer
 
 
 class add_action(Generic[T_contra]):  # noqa:N801

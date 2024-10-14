@@ -13,7 +13,7 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
-    "pyside6!=6.8.0,>=6.7",
+    "pyside6!=6.8,>=6.7",
 ]
 urls.Homepage = "https://github.com/ZeeD/guilib"
 urls.Repository = "https://github.com/ZeeD/guilib.git"
