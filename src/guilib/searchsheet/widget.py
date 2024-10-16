@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+from typing import Self
 
 from PySide6.QtCore import QItemSelectionModel
 from PySide6.QtCore import QSortFilterProxyModel
@@ -65,11 +66,18 @@ class SearchSheet(QWidget):
         if isinstance(model, QSortFilterProxyModel):
             model.setFilterWildcard(text)
 
-    def set_model(self, searchable_model: 'SearchableModel') -> None:
+    def set_model(self, searchable_model: 'SearchableModel') -> Self:
         self.table_view.setModel(searchable_model)
         searchable_model.modelReset.connect(
             self.table_view.resizeColumnsToContents
         )
+        return self
 
     def selection_model(self) -> QItemSelectionModel:
         return self.table_view.selectionModel()
+
+    def reload(self) -> Self:
+        model = self.table_view.model()
+        if hasattr(model, 'reload'):
+            model.reload()
+        return self
