@@ -59,7 +59,10 @@ class ChartSlider(QWidget):
     end_date_changed = Signal(date)
 
     def __init__(
-        self, model: QSortFilterProxyModel, parent: QWidget | None = None
+        self,
+        model: QSortFilterProxyModel,
+        parent: QWidget | None = None,
+        dates_column: int = 0,
     ) -> None:
         super().__init__(parent)
         layout = QVBoxLayout()
@@ -84,13 +87,15 @@ class ChartSlider(QWidget):
             self.end_date_changed.emit(days2date(days))
 
         self.range_slider.second_moved.connect(_end_date_changed)
+        self.dates_column = dates_column
 
     @Slot()
     def source_model_reset(self) -> None:
         source_model = self._model.sourceModel()
         dates: list[date] = [
             source_model.data(
-                source_model.createIndex(row, 0), Qt.ItemDataRole.UserRole
+                source_model.createIndex(row, self.dates_column),
+                Qt.ItemDataRole.UserRole,
             )
             for row in range(source_model.rowCount())
         ]
