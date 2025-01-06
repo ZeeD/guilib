@@ -5,6 +5,8 @@ requires = [ "pdm-backend" ]
 [project]
 name = "zeed-guilib"
 version = "0.0.3"
+license = { file = "LICENSE" }
+
 requires-python = "==3.12.*"
 classifiers = [
     "Programming Language :: Python :: 3 :: Only",
@@ -33,9 +35,9 @@ dev = [
 _.env = { PYTHONPATH = "src:tests" }
 lint = { composite = [
     "pyproject-fmt pyproject.toml",
-    "ruff format .",
-    "ruff check --exit-zero .",
-    "dmypy run .",
+    "ruff format {args:.}",
+    "ruff check --exit-zero {args:.}",
+    "mypy {args:.}",
 ] }
 tests = { composite = [
     "coverage run -m unittest discover --verbose --locals --failfast --catch --start-directory tests",
