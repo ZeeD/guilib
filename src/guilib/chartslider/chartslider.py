@@ -24,16 +24,10 @@ class RangeSlider(QQuickItem):
     second_moved: Signal
 
     @abstractmethod
-    def set_first_value(
-        self,
-        first_value: float,  # @UnusedVariable
-    ) -> None: ...
+    def set_first_value(self, first_value: float) -> None: ...
 
     @abstractmethod
-    def set_second_value(
-        self,
-        second_value: float,  # @UnusedVariable
-    ) -> None: ...
+    def set_second_value(self, second_value: float) -> None: ...
 
 
 class RangeSliderView(QQuickView):
