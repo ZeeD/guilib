@@ -1,6 +1,5 @@
-from qwt.scale_draw import QwtScaleDraw
-
 from guilib.dates.converters import days2date
+from qwt.scale_draw import QwtScaleDraw
 
 
 class EuroScaleDraw(QwtScaleDraw):

@@ -12,9 +12,7 @@ from PySide6.QtCore import Slot
 from PySide6.QtGui import QBrush
 from PySide6.QtGui import QFont
 from PySide6.QtGui import QMouseEvent
-from PySide6.QtWidgets import QWidget
 
-from guilib.chartwidget.viewmodel import SortFilterViewModel
 from guilib.dates.converters import date2days
 from guilib.dates.converters import days2date
 from guilib.dates.generators import days
@@ -28,7 +26,6 @@ from qwt.plot_curve import QwtPlotCurve
 from qwt.plot_grid import QwtPlotGrid
 from qwt.plot_marker import QwtPlotMarker
 from qwt.scale_div import QwtScaleDiv
-from qwt.scale_draw import QwtScaleDraw
 from qwt.symbol import QwtSymbol
 from qwt.text import QwtText
 
@@ -36,7 +33,11 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from decimal import Decimal
 
+    from PySide6.QtWidgets import QWidget
+
+    from guilib.chartwidget.viewmodel import SortFilterViewModel
     from qwt.legend import QwtLegendLabel
+    from qwt.scale_draw import QwtScaleDraw
 
 
 def linecolors() -> 'Iterable[Qt.GlobalColor]':
@@ -59,9 +60,9 @@ class Plot(QwtPlot):
     def __init__(
         self,
         model: 'SortFilterViewModel',
-        parent: QWidget | None,
-        x_bottom_scale_draw: QwtScaleDraw | None = None,
-        y_left_scale_draw: QwtScaleDraw | None = None,
+        parent: 'QWidget | None',
+        x_bottom_scale_draw: 'QwtScaleDraw | None' = None,
+        y_left_scale_draw: 'QwtScaleDraw | None' = None,
     ) -> None:
         super().__init__(parent)
         self._model = model.sourceModel()
@@ -156,14 +157,14 @@ class Plot(QwtPlot):
 
         self._date_changed(min_xdata, max_xdata)
 
-    @Slot(date)  # type: ignore[arg-type]
+    @Slot(date)
     def start_date_changed(self, start_date: date) -> None:
         lower_bound = date2days(start_date)
         upper_bound = self.axisScaleDiv(QwtPlot.xBottom).interval().maxValue()
 
         self._date_changed(lower_bound, upper_bound)
 
-    @Slot(date)  # type: ignore[arg-type]
+    @Slot(date)
     def end_date_changed(self, end_date: date) -> None:
         lower_bound = self.axisScaleDiv(QwtPlot.xBottom).interval().minValue()
         upper_bound = date2days(end_date)
