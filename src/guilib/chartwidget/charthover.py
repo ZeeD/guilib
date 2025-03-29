@@ -42,7 +42,7 @@ class ChartHover(QGraphicsWidget):
         self.setZValue(11)
 
         self.widget = cast(
-            ChartHoverUI,
+            'ChartHoverUI',
             QUiLoader().load(Path(__file__).with_name('charthoverui.ui')),
         )
 

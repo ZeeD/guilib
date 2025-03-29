@@ -1,6 +1,5 @@
 from datetime import date
 from decimal import Decimal
-from operator import attrgetter
 from typing import TYPE_CHECKING
 from typing import Literal
 from typing import cast
@@ -27,27 +26,43 @@ if TYPE_CHECKING:
 
 
 def max_min_this(
-    data: list[list[str]], row: int, column: int
-) -> 'tuple[Decimal, Decimal, Decimal]':
+    data: list[list[str | None]], row: int, column: int
+) -> 'tuple[Decimal, Decimal, Decimal|None]':
     ds = (
-        [Decimal(date.fromisoformat(datum[0]).toordinal()) for datum in data]
+        [
+            None
+            if datum[0] is None
+            else Decimal(date.fromisoformat(datum[0]).toordinal())
+            for datum in data
+        ]
         if column == 0
-        else [Decimal(datum[column]) for datum in data]
+        else [
+            None
+            if datum[column] is None
+            else Decimal(cast('str', datum[column]))
+            for datum in data
+        ]
     )
-    return max(ds), min(ds), ds[row]
+    return (
+        max(d for d in ds if d is not None),
+        min(d for d in ds if d is not None),
+        ds[row],
+    )
 
 
 _QMODELINDEX = QModelIndex()
 
 
-def parse_infos(infos: 'Sequence[Info]') -> tuple[list[str], list[list[str]]]:
+def parse_infos(
+    infos: 'Sequence[Info]',
+) -> tuple[list[str], list[list[str | None]]]:
     headers: list[str] = ['when']
-    data: list[list[str]] = []
+    data: list[list[str | None]] = []
 
     indexes: dict[str, int] = {}
 
-    for info in sorted(infos, key=attrgetter('when'), reverse=True):
-        row = ['0'] * len(headers)
+    for info in infos:
+        row: list[str | None] = [None] * len(headers)
 
         # when
         row[0] = str(info.when)
@@ -64,7 +79,7 @@ def parse_infos(infos: 'Sequence[Info]') -> tuple[list[str], list[list[str]]]:
                 indexes[key] = len(headers)
                 headers.append(key)
                 for other_row in data:
-                    other_row.append('0')
+                    other_row.append(None)
                 row.append(value)
 
         data.append(row)
@@ -144,16 +159,18 @@ class ViewModel(QAbstractTableModel):
 
         if role in {Qt.ItemDataRole.DisplayRole, Qt.ItemDataRole.ToolTipRole}:
             value = self._data[row][column]
+            if value is None:
+                return None
             if column == 0:
                 return value[:-3] if value.endswith('01') else f'{value[:-5]}13'
-            return None if value == '0' else value
+            return value
 
         if role == Qt.ItemDataRole.TextAlignmentRole:
             return Qt.AlignmentFlag.AlignCenter
 
         if role == Qt.ItemDataRole.BackgroundRole:
             max_, min_, val = max_min_this(self._data, row, column)
-            if val == 0:
+            if val is None:
                 return None
 
             perc = (
@@ -200,9 +217,13 @@ class ViewModel(QAbstractTableModel):
     def sort(
         self, index: int, order: Qt.SortOrder = Qt.SortOrder.AscendingOrder
     ) -> None:
-        def key(row: list[str]) -> date | Decimal:
+        def key(row: list[str | None]) -> date | Decimal | str:
             raw = row[index]
-            return date.fromisoformat(raw) if index == 0 else Decimal(raw)
+            if raw is None:
+                return ''
+            if index == 0:
+                return date.fromisoformat(raw)
+            return Decimal(raw)
 
         self.layoutAboutToBeChanged.emit()
         try:
@@ -283,4 +304,4 @@ class SortFilterViewModel(QSortFilterProxyModel):
 
     @override
     def sourceModel(self) -> ViewModel:
-        return cast(ViewModel, super().sourceModel())
+        return cast('ViewModel', super().sourceModel())

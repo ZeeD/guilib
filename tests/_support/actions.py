@@ -29,7 +29,7 @@ class add_action(Generic[T_contra]):  # noqa:N801
     actions: ClassVar[list[Action]] = []
 
     def __init__(self, clsmethod: ClassMethodWorkAround[T_contra]) -> None:
-        self.clsmethod = cast(ClassMethod[T_contra], clsmethod)
+        self.clsmethod = cast('ClassMethod[T_contra]', clsmethod)
 
     def __get__(self, instance: None, owner: type[T_contra]) -> Action:
         return self.clsmethod.__get__(instance, owner)

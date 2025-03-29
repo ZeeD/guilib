@@ -28,7 +28,7 @@ class BaseTest(IsolatedAsyncioTestCase):
     __test_cases: ClassVar[dict[type[IsolatedAsyncioTestCase], bool]] = {}
 
     @override
-    def __init__(self, methodName: str = 'runTest') -> None:  # noqa: N803
+    def __init__(self, methodName: str = 'runTest') -> None:
         super().__init__(methodName)
         self.__test_cases[self.__class__] = True
 

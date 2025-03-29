@@ -6,7 +6,6 @@ from typing import cast
 from typing import override
 
 from PySide6.QtCharts import QChartView
-from PySide6.QtCharts import QLineSeries
 from PySide6.QtCharts import QValueAxis
 from PySide6.QtCore import QPointF
 from PySide6.QtCore import Qt
@@ -18,6 +17,7 @@ from guilib.chartwidget.datetimeaxis import DateTimeAxis
 from guilib.dates.converters import days2date
 
 if TYPE_CHECKING:
+    from PySide6.QtCharts import QLineSeries
     from PySide6.QtGui import QMouseEvent
     from PySide6.QtWidgets import QWidget
 
@@ -55,18 +55,18 @@ class ChartView(QChartView):
         self.event_pos: QPointF | None = None
         self.factory = factory
 
-    @Slot(date)  # type: ignore[arg-type]
+    @Slot(date)
     def start_date_changed(self, start_date: date) -> None:
         self._start_date = start_date
         self._date_changed()
 
-    @Slot(date)  # type: ignore[arg-type]
+    @Slot(date)
     def end_date_changed(self, end_date: date) -> None:
         self._end_date = end_date
         self._date_changed()
 
     def _date_changed(self) -> None:
-        chart = cast(Chart, self.chart())
+        chart = cast('Chart', self.chart())
         axis_x = self._axis_x
         if chart is None or axis_x is None:
             return
@@ -119,7 +119,7 @@ class ChartView(QChartView):
 
             # find closest x
             # assumption: all series have same x, so just get the first one
-            series = cast(list[QLineSeries], chart.series())
+            series = cast('list[QLineSeries]', chart.series())
             points = series[0].points()
             _, index, value = min(
                 (abs(event_value.x() - point.x()), i, point)

@@ -1,6 +1,6 @@
 from abc import abstractmethod
 from datetime import date
-from logging import error
+from logging import getLogger
 from pathlib import Path
 from typing import cast
 from typing import override
@@ -17,6 +17,8 @@ from PySide6.QtWidgets import QWidget
 
 from guilib.dates.converters import date2days
 from guilib.dates.converters import days2date
+
+logger = getLogger(__name__)
 
 
 class RangeSlider(QQuickItem):
@@ -40,12 +42,12 @@ class RangeSliderView(QQuickView):
 
     def dump(self, status: QQuickView.Status) -> None:
         if status is QQuickView.Status.Error:
-            for error_ in self.errors():
-                error('error=%s', error_)
+            for error in self.errors():
+                logger.error('error=%s', error)
 
     @override
     def rootObject(self) -> RangeSlider:
-        return cast(RangeSlider, super().rootObject())
+        return cast('RangeSlider', super().rootObject())
 
 
 class ChartSlider(QWidget):
@@ -94,7 +96,7 @@ class ChartSlider(QWidget):
             for row in range(source_model.rowCount())
         ]
         if not dates:
-            error('no dates!')
+            logger.error('no dates!')
             return
         dates.sort()
         minimum = date2days(dates[0])
