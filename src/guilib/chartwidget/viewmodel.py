@@ -22,7 +22,7 @@ if TYPE_CHECKING:
 
     from PySide6.QtWidgets import QStatusBar
 
-    from guilib.chartwidget.model import Info
+    from guilib.chartwidget.model import InfoProto
 
 
 def max_min_this(
@@ -54,7 +54,7 @@ _QMODELINDEX = QModelIndex()
 
 
 def parse_infos(
-    infos: 'Sequence[Info]',
+    infos: 'Sequence[InfoProto]',
 ) -> tuple[list[str], list[list[str | None]]]:
     headers: list[str] = ['when']
     data: list[list[str | None]] = []
@@ -88,11 +88,11 @@ def parse_infos(
 
 
 class ViewModel(QAbstractTableModel):
-    def __init__(self, parent: QObject, infos: 'list[Info]') -> None:
+    def __init__(self, parent: QObject, infos: 'list[InfoProto]') -> None:
         super().__init__(parent)
         self._set_infos(infos)
 
-    def _set_infos(self, infos: 'Sequence[Info]') -> None:
+    def _set_infos(self, infos: 'Sequence[InfoProto]') -> None:
         self._headers, self._data = parse_infos(infos)
         self._infos = infos
 
@@ -233,7 +233,7 @@ class ViewModel(QAbstractTableModel):
         finally:
             self.layoutChanged.emit()
 
-    def load(self, infos: 'Sequence[Info]') -> None:
+    def load(self, infos: 'Sequence[InfoProto]') -> None:
         self.beginResetModel()
         try:
             self._set_infos(infos)
@@ -291,14 +291,14 @@ class SortFilterViewModel(QSortFilterProxyModel):
             message = f'⅀ = {bigsum}'
         statusbar.showMessage(message)
 
-    def update(self, infos: 'Sequence[Info]') -> None:
+    def update(self, infos: 'Sequence[InfoProto]') -> None:
         self.sourceModel().load(infos)
 
     def get_categories(self) -> list[str]:
         view_model = self.sourceModel()
         return view_model._headers  # noqa: SLF001
 
-    def get_rows(self) -> 'Sequence[Info]':
+    def get_rows(self) -> 'Sequence[InfoProto]':
         view_model = self.sourceModel()
         return view_model._infos  # noqa: SLF001
 
