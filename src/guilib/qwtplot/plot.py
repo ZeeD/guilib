@@ -65,7 +65,7 @@ class Plot(QwtPlot):
         y_left_scale_draw: 'QwtScaleDraw | None' = None,
     ) -> None:
         super().__init__(parent)
-        self._model = model.sourceModel()
+        self._model = model
         self._model.modelReset.connect(self.model_reset)
         self.setCanvasBackground(Qt.GlobalColor.white)
         QwtPlotGrid.make(self, enableminor=(False, True))

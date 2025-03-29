@@ -16,8 +16,8 @@ if TYPE_CHECKING:
 
     from PySide6.QtCore import QDateTime
 
-    from guilib.chartwidget.model import ColumnHeader
-    from guilib.chartwidget.model import Info
+    from guilib.chartwidget.model import ColumnHeaderProto
+    from guilib.chartwidget.model import InfoProto
 
 
 class SeriesModelUnit(Enum):
@@ -26,7 +26,7 @@ class SeriesModelUnit(Enum):
     DAY = auto()
 
 
-SeriesModelFactory = Callable[['Sequence[Info]'], 'SeriesModel']
+SeriesModelFactory = Callable[['Sequence[InfoProto]'], 'SeriesModel']
 
 
 @dataclass
@@ -40,9 +40,9 @@ class SeriesModel:
 
     @staticmethod
     def by_column_header(
-        *column_headers: 'ColumnHeader',
+        *column_headers: 'ColumnHeaderProto',
     ) -> 'SeriesModelFactory':
-        def factory(infos: 'Sequence[Info]') -> 'SeriesModel':
+        def factory(infos: 'Sequence[InfoProto]') -> 'SeriesModel':
             x_min = date.max
             x_max = date.min
             y_min = Decimal('inf')

@@ -1,46 +1,18 @@
 from datetime import date
 from decimal import Decimal
-from typing import TYPE_CHECKING
 from typing import Final
 
 from _support.basetests import BaseGuiTest
 from guilib.chartwidget.chartwidget import ChartWidget
+from guilib.chartwidget.model import Column
+from guilib.chartwidget.model import ColumnHeader
+from guilib.chartwidget.model import Info
 from guilib.chartwidget.modelgui import SeriesModel
 from guilib.chartwidget.viewmodel import SortFilterViewModel
 
-if TYPE_CHECKING:
-    from collections.abc import Sequence
-
-    from guilib.chartwidget.model import Column as PColumn
-    from guilib.chartwidget.model import ColumnHeader as PColumnHeader
-
-
-class Header:
-    name = 'foo'
-
-
-class Column:
-    def __init__(
-        self, header: 'PColumnHeader', howmuch: 'Decimal | None'
-    ) -> None:
-        self.header = header
-        self.howmuch = howmuch
-
-
-class Info:
-    def __init__(self, when: 'date', columns: 'Sequence[PColumn]') -> None:
-        self.when = when
-        self.columns = columns
-
-    def howmuch(self, column_header: 'PColumnHeader') -> 'Decimal | None':
-        for column in self.columns:
-            if column.header == column_header:
-                return column.howmuch
-        return None
-
 
 class TestChartWidget(BaseGuiTest):
-    header = Header()
+    header: Final = ColumnHeader('foo')
     infos: Final = [
         Info(date(2023, 1, 1), [Column(header, Decimal('0'))]),
         Info(date(2023, 1, 2), [Column(header, Decimal('100'))]),
