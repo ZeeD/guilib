@@ -67,5 +67,6 @@ class TestChartWidget(BaseGuiTest):
             model, None, SeriesModel.by_column_header(self.header), '%d/%m/%Y'
         )
         model.update(self.infos)
+        widget.setWindowTitle('TestChartWidget')
         widget.resize(800, 600)
         self.widgets.append(widget)

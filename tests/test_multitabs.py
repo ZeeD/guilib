@@ -11,4 +11,5 @@ class TestMultiTabs(BaseGuiTest):
         multi_tabs.add_double_box(SearchSheet(), QChartView(), 'first')
         multi_tabs.add_double_box(SearchSheet(), QChartView(), 'second')
         multi_tabs.add_double_box(SearchSheet(), QChartView(), '3rd')
+        multi_tabs.setWindowTitle('TestMultiTabs')
         self.widgets.append(multi_tabs)

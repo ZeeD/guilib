@@ -49,4 +49,5 @@ class TestSearchSheet(BaseGuiTest):
         search_sheet.set_model(
             SearchableModel(M([('uno', 101), ('due', 102), ('tre', 103)]))
         )
+        search_sheet.setWindowTitle('TestSearchSheet')
         self.widgets.append(search_sheet)
