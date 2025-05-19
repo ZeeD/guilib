@@ -61,8 +61,10 @@ class Plot(QwtPlot):
         self,
         model: 'SortFilterViewModel',
         parent: 'QWidget | None',
+        *,
         x_bottom_scale_draw: 'QwtScaleDraw | None' = None,
         y_left_scale_draw: 'QwtScaleDraw | None' = None,
+        curve_style: int = QwtPlotCurve.Steps
     ) -> None:
         super().__init__(parent)
         self._model = model
@@ -81,6 +83,7 @@ class Plot(QwtPlot):
         self.insertLegend(QwtLegend(), QwtPlot.TopLegend)
         self.curves: dict[str, QwtPlotCurve] = {}
         self.markers: dict[str, QwtPlotMarker] = {}
+        self._curve_style = curve_style
 
     @Slot()
     def model_reset(self) -> None:
@@ -132,7 +135,7 @@ class Plot(QwtPlot):
                     f'{name} - ...', weight=QFont.Weight.Bold, color=linecolor
                 ),
                 plot=self,
-                style=QwtPlotCurve.Steps,
+                style=self._curve_style,
                 linecolor=linecolor,
                 linewidth=2,
                 antialiased=True,
