@@ -64,7 +64,7 @@ class Plot(QwtPlot):
         *,
         x_bottom_scale_draw: 'QwtScaleDraw | None' = None,
         y_left_scale_draw: 'QwtScaleDraw | None' = None,
-        curve_style: int = QwtPlotCurve.Steps
+        curve_style: int = QwtPlotCurve.Steps,
     ) -> None:
         super().__init__(parent)
         self._model = model
