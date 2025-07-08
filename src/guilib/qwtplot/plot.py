@@ -42,16 +42,17 @@ if TYPE_CHECKING:
 
 def linecolors() -> 'Iterable[Qt.GlobalColor]':
     excluded: set[Qt.GlobalColor] = {
+        Qt.GlobalColor.transparent,
         Qt.GlobalColor.color0,
         Qt.GlobalColor.color1,
         Qt.GlobalColor.black,
         Qt.GlobalColor.white,
         Qt.GlobalColor.lightGray,
-        Qt.GlobalColor.cyan,
+        Qt.GlobalColor.gray,
+        Qt.GlobalColor.darkGray,
         Qt.GlobalColor.green,
-        Qt.GlobalColor.magenta,
         Qt.GlobalColor.yellow,
-        Qt.GlobalColor.transparent,
+        Qt.GlobalColor.cyan,
     }
     return cycle(filter(lambda c: c not in excluded, Qt.GlobalColor))
 

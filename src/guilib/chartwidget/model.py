@@ -1,4 +1,5 @@
 from typing import TYPE_CHECKING
+from typing import Literal
 from typing import Protocol
 from typing import override
 
@@ -7,10 +8,12 @@ if TYPE_CHECKING:
     from datetime import date
     from decimal import Decimal
 
+ColumnHeaderUnit = Literal['€', 'days', 'hours']
+
 
 class ColumnHeaderProto(Protocol):
     name: str
-    # TODO: add unit
+    unit: ColumnHeaderUnit
 
 
 class ColumnProto(Protocol):
@@ -29,14 +32,19 @@ class InfoProto(Protocol):
 
 
 class ColumnHeader:
-    def __init__(self, name: str) -> None:
+    def __init__(self, name: str, unit: ColumnHeaderUnit) -> None:
         self.name = name
+        self.unit = unit
 
     @override
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, ColumnHeader):
             return NotImplemented
-        return self.name == other.name
+        return all([self.name == other.name, self.unit == other.unit])
+
+    @override
+    def __hash__(self) -> int:
+        return hash(self.name + self.unit)
 
 
 class Column:

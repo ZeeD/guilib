@@ -1,11 +1,7 @@
 from typing import Any
-from typing import Generic
-from typing import TypeVar
-
-T = TypeVar('T')
 
 
-class Doubler(Generic[T]):
+class Doubler[T]:
     def __init__(self, left: T, right: T) -> None:
         self._left = left
         self._right = right

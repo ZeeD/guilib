@@ -8,11 +8,32 @@ from guilib.chartwidget.model import Info
 from guilib.chartwidget.viewmodel import SortFilterViewModel
 from guilib.qwtplot.plot import Plot
 
-UNO = ColumnHeader('uno')
-DUE = ColumnHeader('due')
-
 d = date
 D = Decimal
+
+cs = [ColumnHeader(f'header{n}', 'days') for n in range(10)]
+
+dss = [
+    [D(n) for n in range(len(cs))],
+    [D(-n) for n in range(len(cs))],
+    [D(n + 3 if n % 2 else n // 2) for n in range(len(cs))],
+    [D(2 * n) for n in range(len(cs))],
+    [D(n / 3) for n in range(len(cs))],
+    [D(1 - 2 * n) for n in range(len(cs))],
+]
+
+css = [[Column(c, d) for c, d in zip(cs, ds, strict=True)] for ds in dss]
+
+ds = [
+    d(2023, 12, 1),
+    d(2024, 1, 1),
+    d(2024, 1, 2),
+    d(2024, 1, 3),
+    d(2024, 1, 4),
+    d(2024, 2, 1),
+]
+
+infos = [Info(d, cs) for d, cs in zip(ds, css, strict=True)]
 
 
 class TestQwtPlot(BaseGuiTest):
@@ -20,14 +41,5 @@ class TestQwtPlot(BaseGuiTest):
         model = SortFilterViewModel()
         plot = Plot(model, None)
         plot.setWindowTitle('TestQwtPlot')
-        model.update(
-            [
-                Info(d(2023, 12, 1), [Column(UNO, D(0)), Column(DUE, D(0))]),
-                Info(d(2024, 1, 1), [Column(DUE, D(1))]),
-                Info(d(2024, 1, 2), [Column(DUE, D(2))]),
-                Info(d(2024, 1, 3), [Column(UNO, D(3)), Column(DUE, D(4))]),
-                Info(d(2024, 1, 4), [Column(UNO, D(5))]),
-                Info(d(2024, 2, 1), [Column(UNO, D(0)), Column(DUE, D(0))]),
-            ]
-        )
+        model.update(infos)
         self.widgets.append(plot)
