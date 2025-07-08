@@ -52,6 +52,7 @@ bump_and_publish = { composite = [
     "pdm bump patch --commit --tag",
     "pdm publish",
     "git push",
+    "git push --tags",
 ] }
 
 [tool.ruff]
