@@ -203,8 +203,9 @@ class Plot(QwtPlot):
                 for idx, x in enumerate(data.xData())
                 if lower_bound <= x <= upper_bound
             ]
-            y_min = min(y_min, *ys2)
-            y_max = max(y_max, *ys2)
+            if ys2:
+                y_min = min(y_min, *ys2)
+                y_max = max(y_max, *ys2)
 
         self.setAxisScale(QwtPlot.yLeft, y_min, y_max)
 
