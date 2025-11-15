@@ -1,5 +1,7 @@
 from datetime import date
 from decimal import Decimal
+from decimal import InvalidOperation
+from functools import partial
 from typing import TYPE_CHECKING
 from typing import Literal
 from typing import cast
@@ -18,11 +20,24 @@ from PySide6.QtGui import QBrush
 from PySide6.QtGui import QColor
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from collections.abc import Sequence
 
     from PySide6.QtWidgets import QStatusBar
 
     from guilib.chartwidget.model import InfoProto
+
+
+def try_else[T](
+    fun: 'Callable[[], T]',
+    fallback: T,
+    *,
+    exception_class: type[Exception] = Exception,
+) -> T:
+    try:
+        return fun()
+    except exception_class:
+        return fallback
 
 
 def max_min_this(
@@ -39,7 +54,11 @@ def max_min_this(
         else [
             None
             if datum[column] is None
-            else Decimal(cast('str', datum[column]))
+            else try_else(
+                partial(Decimal, cast('str', datum[column])),
+                Decimal(),
+                exception_class=InvalidOperation,
+            )
             for datum in data
         ]
     )
