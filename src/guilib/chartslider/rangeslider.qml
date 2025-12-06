@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Controls
 
 RangeSlider {
+    orientation: Qt.Horizontal
+
     signal first_moved(real first_value)
     signal second_moved(real second_value)
 

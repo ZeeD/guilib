@@ -1,9 +1,10 @@
 from typing import TYPE_CHECKING
 
-from PySide6.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QGridLayout
 from PySide6.QtWidgets import QWidget
 
-from guilib.chartslider.chartslider import ChartSlider
+from guilib.chartslider.xchartslider import XChartSlider
+from guilib.chartslider.ychartslider import YChartSlider
 from guilib.chartwidget.chartview import ChartView
 
 if TYPE_CHECKING:
@@ -23,12 +24,18 @@ class ChartWidget(QWidget):
     ) -> None:
         super().__init__(parent)
 
-        layout = QVBoxLayout(self)
+        layout = QGridLayout(self)
         chart_view = ChartView(model, self, factory, precision)
-        chart_slider = ChartSlider(model, self)
-        layout.addWidget(chart_view)
-        layout.addWidget(chart_slider)
+        x_chart_slider = XChartSlider(model, self)
+        y_chart_slider = YChartSlider(model, self)
+        layout.addWidget(chart_view, 0, 0)
+        layout.addWidget(x_chart_slider, 1, 0)
+        layout.addWidget(y_chart_slider, 0, 1)
+
         self.setLayout(layout)
 
-        chart_slider.start_date_changed.connect(chart_view.start_date_changed)
-        chart_slider.end_date_changed.connect(chart_view.end_date_changed)
+        x_chart_slider.start_date_changed.connect(chart_view.start_date_changed)
+        x_chart_slider.end_date_changed.connect(chart_view.end_date_changed)
+
+        y_chart_slider.min_money_changed.connect(chart_view.min_money_changed)
+        y_chart_slider.max_money_changed.connect(chart_view.max_money_changed)

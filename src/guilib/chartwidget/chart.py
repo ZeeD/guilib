@@ -11,6 +11,7 @@ from guilib.dates.converters import date2days
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from datetime import date
+    from decimal import Decimal
 
     from guilib.chartwidget.datetimeaxis import DateTimeAxis
 
@@ -28,6 +29,12 @@ class Chart(QChart):
 
         axis.setMin(date2days(start_date))
         axis.setMax(date2days(end_date))
+
+    def y_zoom(self, min_money: 'Decimal', max_money: 'Decimal') -> None:
+        axis = cast('DateTimeAxis', self.axes(Qt.Orientation.Vertical)[0])
+
+        axis.setMin(float(min_money))
+        axis.setMax(float(max_money))
 
     def replace_series(self, series: 'Iterable[QLineSeries]') -> None:
         self.removeAllSeries()

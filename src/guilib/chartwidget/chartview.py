@@ -49,8 +49,11 @@ class ChartView(QChartView):
         self._model = model.sourceModel()
         self._model.modelReset.connect(self.model_reset)
         self._axis_x: DateTimeAxis | None = None
+        self._axis_y: QValueAxis | None = None
         self._start_date: date | None = None
         self._end_date: date | None = None
+        self._min_money: Decimal | None = None
+        self._max_money: Decimal | None = None
         self.chart_hover = ChartHover(precision)
         self.event_pos: QPointF | None = None
         self.factory = factory
@@ -81,6 +84,32 @@ class ChartView(QChartView):
         )
         chart.x_zoom(start_date, end_date)
 
+    @Slot(date)
+    def min_money_changed(self, min_money: Decimal) -> None:
+        self._min_money = min_money
+        self._money_changed()
+
+    @Slot(date)
+    def max_money_changed(self, max_money: Decimal) -> None:
+        self._max_money = max_money
+        self._money_changed()
+
+    def _money_changed(self) -> None:
+        chart = cast('Chart', self.chart())
+        axis_y = self._axis_y
+        if chart is None or axis_y is None:
+            return
+
+        min_money = (
+            self._min_money
+            if self._min_money is not None
+            else axis_y.min()
+        )
+        max_money = (
+            self._max_money if self._max_money is not None else axis_y.max()
+        )
+        chart.y_zoom(min_money, max_money)
+
     @Slot()
     def model_reset(self) -> None:
         series_model = self.factory(self._model._infos)  # noqa: SLF001
@@ -109,6 +138,7 @@ class ChartView(QChartView):
         self.setChart(chart)
         self.chart_hover.setParentItem(chart)
         self._axis_x = axis_x
+        self._axis_y = axis_y
 
     @override
     def mouseMoveEvent(self, event: 'QMouseEvent') -> None:
