@@ -15,7 +15,6 @@ from guilib.dates.converters import days2date
 logger = getLogger(__name__)
 
 
-
 class XChartSlider(QWidget):
     start_date_changed = Signal(date)
     end_date_changed = Signal(date)
@@ -32,6 +31,7 @@ class XChartSlider(QWidget):
         self.view = RangeSliderView()
 
         self.range_slider = self.view.rootObject()
+        self.range_slider.setProperty('orientation', Qt.Orientation.Horizontal)
 
         container = QWidget.createWindowContainer(self.view)
         container.setMinimumSize(100, 10)

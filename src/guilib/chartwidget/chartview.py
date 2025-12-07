@@ -103,10 +103,12 @@ class ChartView(QChartView):
         min_money = (
             self._min_money
             if self._min_money is not None
-            else axis_y.min()
+            else Decimal(axis_y.min())
         )
         max_money = (
-            self._max_money if self._max_money is not None else axis_y.max()
+            self._max_money
+            if self._max_money is not None
+            else Decimal(axis_y.max())
         )
         chart.y_zoom(min_money, max_money)
 

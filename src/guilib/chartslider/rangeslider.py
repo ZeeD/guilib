@@ -12,6 +12,7 @@ from PySide6.QtQuick import QQuickView
 
 logger = getLogger(__name__)
 
+
 class RangeSlider(QQuickItem):
     first_moved: Signal
     second_moved: Signal
@@ -40,4 +41,3 @@ class RangeSliderView(QQuickView):
     @override
     def rootObject(self) -> RangeSlider:
         return cast('RangeSlider', super().rootObject())
-

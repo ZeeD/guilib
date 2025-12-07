@@ -14,7 +14,6 @@ from guilib.chartslider.rangeslider import RangeSliderView
 logger = getLogger(__name__)
 
 
-
 class YChartSlider(QWidget):
     min_money_changed = Signal(Decimal)
     max_money_changed = Signal(Decimal)
@@ -61,8 +60,8 @@ class YChartSlider(QWidget):
                 if col == self.dates_column:
                     continue
                 d: Decimal = source_model.data(
-                        source_model.createIndex(row, col),
-                        Qt.ItemDataRole.UserRole)
+                    source_model.createIndex(row, col), Qt.ItemDataRole.UserRole
+                )
                 value = float(d)
                 minimum = min(minimum, value)
                 maximum = max(maximum, value)
