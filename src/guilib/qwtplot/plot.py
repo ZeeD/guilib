@@ -211,8 +211,25 @@ class Plot(QwtPlot):
 
         self.replot()
 
+    @Slot(date)
+    def min_money_changed(self, min_money: 'Decimal') -> None:
+        lower_bound = float(min_money)
+        upper_bound = self.axisScaleDiv(QwtPlot.yLeft).interval().maxValue()
+
+        self._money_changed(lower_bound, upper_bound)
+
+    @Slot(date)
+    def max_money_changed(self, max_money: 'Decimal') -> None:
+        lower_bound = self.axisScaleDiv(QwtPlot.yLeft).interval().minValue()
+        upper_bound = float(max_money)
+
+        self._money_changed(lower_bound, upper_bound)
+
+    def _money_changed(self, lower_bound: float, upper_bound: float) -> None:
+        self.setAxisScale(QwtPlot.yLeft, lower_bound, upper_bound)
+
     @override
-    def mouseMoveEvent(self, event: 'QMouseEvent') -> None:
+    def mouseMoveEvent(self, event: QMouseEvent) -> None:
         event_pos = event.position()
 
         scale_map = self.canvasMap(QwtPlot.xBottom)

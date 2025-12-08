@@ -62,6 +62,8 @@ class YChartSlider(QWidget):
                 d: Decimal = source_model.data(
                     source_model.createIndex(row, col), Qt.ItemDataRole.UserRole
                 )
+                if d is None:
+                    continue
                 value = float(d)
                 minimum = min(minimum, value)
                 maximum = max(maximum, value)
