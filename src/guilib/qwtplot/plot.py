@@ -262,7 +262,7 @@ class Plot(QwtPlot):
 
             text = QwtText.make(
                 f'{name} - € {y_closest:_.2f}',
-                weight=QFont.Weight.Bold,
+                # weight=QFont.Weight.Bold, # noqa: ERA001
                 color=curve.pen().color(),
             )
             legend.setText(text)
