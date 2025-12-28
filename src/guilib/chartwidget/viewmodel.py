@@ -18,10 +18,12 @@ from PySide6.QtCore import QSortFilterProxyModel
 from PySide6.QtCore import Qt
 from PySide6.QtGui import QBrush
 from PySide6.QtGui import QColor
+from PySide6.QtGui import QIcon
 
 if TYPE_CHECKING:
     from collections.abc import Callable
     from collections.abc import Sequence
+    from pathlib import Path
 
     from PySide6.QtWidgets import QStatusBar
 
@@ -107,7 +109,9 @@ def parse_infos(
 
 
 class ViewModel(QAbstractTableModel):
-    def __init__(self, parent: QObject, infos: 'list[InfoProto]') -> None:
+    def __init__(
+        self, parent: QObject | None, infos: 'list[InfoProto]'
+    ) -> None:
         super().__init__(parent)
         self._set_infos(infos)
 
@@ -155,14 +159,18 @@ class ViewModel(QAbstractTableModel):
         self,
         index: QModelIndex | QPersistentModelIndex,
         role: int = Qt.ItemDataRole.DisplayRole,
-    ) -> str | Qt.AlignmentFlag | None | date | Decimal | QBrush: ...
+    ) -> (
+        'str | Qt.AlignmentFlag | None | date | Decimal | QBrush | QIcon | Path'
+    ): ...
 
     @override
     def data(  # noqa: PLR0911
         self,
         index: QModelIndex | QPersistentModelIndex,
         role: int = Qt.ItemDataRole.DisplayRole,
-    ) -> str | Qt.AlignmentFlag | None | date | Decimal | QBrush:
+    ) -> (
+        'str | Qt.AlignmentFlag | None | date | Decimal | QBrush | QIcon | Path'
+    ):
         if role in {
             Qt.ItemDataRole.DecorationRole,
             Qt.ItemDataRole.StatusTipRole,
