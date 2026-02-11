@@ -32,24 +32,20 @@ dev = [
 [tool.pdm]
 distribution = true
 plugins = [ "pdm-bump" ]
-
-[tool.pdm.build]
-excludes = [ "tests" ]
-
-[tool.pdm.scripts]
-_.env = { PYTHONPATH = "src:tests:stubs" }
-lint = { composite = [
+build.excludes = [ "tests" ]
+scripts._.env = { PYTHONPATH = "src:tests:stubs" }
+scripts.lint = { composite = [
     "pyproject-fmt pyproject.toml",
     "ruff format {args:.}",
     "ruff check {args:.}",
     "mypy {args:.}",
 ], keep_going = true }
-test = { composite = [
+scripts.test = { composite = [
     "coverage run -m unittest discover --verbose --locals --failfast --catch --start-directory tests {args}",
     "coverage report",
     "coverage erase",
 ] }
-bump_and_publish = { composite = [
+scripts.bump_and_publish = { composite = [
     "pdm bump patch --commit --tag",
     "pdm publish",
     "git push",
@@ -97,14 +93,12 @@ lint.isort.force-single-line = true
 column_width = 80
 indent = 4
 
-[tool.coverage.run]
-branch = true
-source = [ "src", "tests" ]
-
-[tool.coverage.report]
-show_missing = true
-sort = "Cover"
-skip_empty = true
+[tool.coverage]
+run.branch = true
+run.source = [ "src", "tests" ]
+report.show_missing = true
+report.skip_empty = true
+report.sort = "Cover"
 
 [tool.mypy]
 mypy_path = [ "src", "tests", "stubs" ]
