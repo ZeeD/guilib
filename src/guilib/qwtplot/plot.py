@@ -71,7 +71,7 @@ class Plot(QwtPlot):
         self._model = model
         self._model.modelReset.connect(self.model_reset)
         self.setCanvasBackground(Qt.GlobalColor.white)
-        QwtPlotGrid.make(self, enableminor=(False, True))
+        QwtPlotGrid.make(self, enableminor=(True, True))
         self.setAxisScaleDraw(
             QwtPlot.xBottom, x_bottom_scale_draw or YearMonthScaleDraw()
         )
