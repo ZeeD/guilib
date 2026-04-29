@@ -3,6 +3,7 @@ from datetime import timedelta
 from itertools import cycle
 from math import inf
 from typing import TYPE_CHECKING
+from typing import Final
 from typing import cast
 from typing import override
 
@@ -38,6 +39,8 @@ if TYPE_CHECKING:
     from guilib.chartwidget.viewmodel import SortFilterViewModel
     from qwt.legend import QwtLegendLabel
     from qwt.scale_draw import QwtScaleDraw
+
+LIMIT: Final = 10
 
 
 def linecolors() -> 'Iterable[Qt.GlobalColor]':
@@ -188,8 +191,24 @@ class Plot(QwtPlot):
         if len(ys) == 1:
             ys = []
 
+        minor = ds
+        medium = ms
+        major = ys
+        if len(medium) < LIMIT:
+            medium = ds
+            minor = []
+        if len(major) < LIMIT:
+            major = ms
+            medium = ds
+            minor = []
+        if len(major) < LIMIT:
+            major = ds
+            medium = []
+            minor = []
+
         self.setAxisScaleDiv(
-            QwtPlot.xBottom, QwtScaleDiv(lower_bound, upper_bound, ds, ms, ys)
+            QwtPlot.xBottom,
+            QwtScaleDiv(lower_bound, upper_bound, minor, medium, major),
         )
 
         y_min, y_max = inf, -inf

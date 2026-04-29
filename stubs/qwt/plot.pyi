@@ -8,6 +8,7 @@ from PySide6.QtWidgets import QWidget
 
 from qwt.legend import QwtAbstractLegend
 from qwt.plot_canvas import QwtPlotCanvas
+from qwt.plot_series import QwtPointArrayData
 from qwt.scale_div import QwtScaleDiv
 from qwt.scale_draw import QwtScaleDraw
 from qwt.scale_map import QwtScaleMap
@@ -54,5 +55,7 @@ class QwtPlot(QFrame):
         self, painter: QPainter, canvasRect: QRectF, maps: list[QwtScaleMap]
     ) -> None: ...
     def insertItem(self, item: QwtPlotItem) -> None: ...
+    def itemList(self, rtti: None = None) -> list[QwtPlotItem]: ...
 
-class QwtPlotItem: ...
+class QwtPlotItem:
+    def data(self) -> QwtPointArrayData: ...
