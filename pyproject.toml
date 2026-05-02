@@ -5,7 +5,11 @@ requires = [ "pdm-backend" ]
 [project]
 name = "zeed-guilib"
 version = "0.0.16"
+description = "shared lib for gui stuff for zeed-*-viewer"
 license = { file = "LICENSE" }
+authors = [
+    { name = "ZeeD", email = "vito.detullio@gmail.com" },
+]
 requires-python = ">=3.12,<3.15"
 classifiers = [
     "Programming Language :: Python :: 3 :: Only",
