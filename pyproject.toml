@@ -6,7 +6,8 @@ requires = [ "pdm-backend" ]
 name = "zeed-guilib"
 version = "0.0.16"
 description = "shared lib for gui stuff for zeed-*-viewer"
-license = { file = "LICENSE" }
+readme = "README.md"
+license = { file = "LICENSE", text = "AGPL-3.0-or-later" }
 authors = [
     { name = "ZeeD", email = "vito.detullio@gmail.com" },
 ]
@@ -47,7 +48,7 @@ scripts.lint = { composite = [
     "mypy {args:.}",
 ], keep_going = true }
 scripts.test = { composite = [
-    "coverage run -m unittest discover --verbose --locals --failfast --catch --start-directory tests {args}",
+    "coverage run -m unittest discover --verbose --locals --failfast --catch --start-directory {args:tests}",
     "coverage report",
     "coverage erase",
 ] }
