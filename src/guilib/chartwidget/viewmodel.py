@@ -160,7 +160,7 @@ class ViewModel(QAbstractTableModel):
         index: QModelIndex | QPersistentModelIndex,
         role: int = Qt.ItemDataRole.DisplayRole,
     ) -> (
-        'str | Qt.AlignmentFlag | None | date | Decimal | QBrush | QIcon | Path'
+        'str | Qt.AlignmentFlag | date | Decimal | QBrush | QIcon | Path | None'
     ): ...
 
     @override
@@ -169,7 +169,7 @@ class ViewModel(QAbstractTableModel):
         index: QModelIndex | QPersistentModelIndex,
         role: int = Qt.ItemDataRole.DisplayRole,
     ) -> (
-        'str | Qt.AlignmentFlag | None | date | Decimal | QBrush | QIcon | Path'
+        'str | Qt.AlignmentFlag | date | Decimal | QBrush | QIcon | Path | None'
     ):
         if role in {
             Qt.ItemDataRole.DecorationRole,
