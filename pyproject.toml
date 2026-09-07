@@ -4,7 +4,7 @@ requires = [ "pdm-backend" ]
 
 [project]
 name = "zeed-guilib"
-version = "0.0.16"
+version = "0.0.17"
 description = "shared lib for gui stuff for zeed-*-viewer"
 license = { file = "LICENSE" }
 authors = [
