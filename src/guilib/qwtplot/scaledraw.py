@@ -19,6 +19,9 @@ class YearMonthScaleDraw(QwtDateTimeScaleDraw):
 
     @override
     def label(self, value: float) -> 'QwtText':
-        return super().label(
-            datetime.combine(days2date(value), time()).timestamp()
-        )
+        # https://github.com/python/cpython/issues/81708
+        try:
+            ts = datetime.combine(days2date(value), time()).timestamp()
+        except OSError:
+            ts = 0
+        return super().label(ts)
