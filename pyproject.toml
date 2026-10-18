@@ -18,8 +18,8 @@ classifiers = [
     "Programming Language :: Python :: 3.14",
 ]
 dependencies = [
-    "pyside6-addons==6.12.0",
-    "pyside6-essentials==6.12.0",
+    "pyside6-addons==6.12",
+    "pyside6-essentials==6.12",
     "pythonqwt>=0.14.4",
 ]
 urls.Homepage = "https://github.com/ZeeD/guilib"
